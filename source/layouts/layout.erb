@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title><%= current_page.data.title || "Bitbooks" %></title>
+
+    <!-- Styles and fonts -->
+    <%= stylesheet_link_tag "all" %>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:300,200&subset=latin,cyrillic-ext,greek,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <%= javascript_include_tag  "modernizr" %>
+  </head>
+
+  <body class="<%= page_classes %>">
+    <div class="page-wrapper">
+      
+      <!--[if lt IE 7]>
+          <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+
+      <header class="page-header" role="banner">
+        <h1 class="book-title">Your Book Name</h1><span class="book-author">by Bryan Braun</span>
+      </header>
+
+        <div class="content-wrapper clearfix">
+
+          <aside class="aside-content" role="complementary">
+            <div class="aside-wrapper">
+
+              <div class="block table-of-contents">
+                <h3>Table of Contents</h3>
+                <nav role="navigation">
+                  <ul>
+                    <li>Chapter 1</li>
+                      <ul>
+                        <li>Section 1</li>
+                        <li>Section 2</li>
+                        <li>Section 3</li>
+                        <li>Section 4</li>
+                        <li>Section 5</li>
+                      </ul>
+                    <li>Chapter 2</li>
+                    <li>Chapter 3</li>
+                    <li>Chapter 4</li>
+                    <li>Chapter 5</li>
+                    <li>Chapter 6</li>
+                  </ul>
+                </nav>
+              </div>
+
+              <div class="block open-source">
+                <h3>This book is open source</h3>
+                <p>The source of this book is <a href="#">hosted on Github</a>. Go, ahead. Check it out.</p>
+              </div>
+
+            </div><!-- end aside-wrapper -->
+          </aside>
+
+          <section class="main-content" role="main">
+            <div class="main-content-source">
+              <%= yield %>
+            </div>
+            <nav class="main-content-nav clearfix" role="navigation">
+              <ul>
+                <li><a href="#" class="previous">Previous</a></li>
+                <li><a href="#" class="next">Next</a></li>
+              </ul>
+            </nav>
+          </section>
+
+        </div><!-- end content-wrapper -->
+
+      <footer class="page-footer">
+
+        <div class="footer-wrapper">
+
+          <div class="block downloads">
+            <h3>Downloads</h3>
+            <p>Download this book in <a href="#">PDF</a>, <a href="#">ePub</a>, or <a href="#">mobi</a> form for free.</p>
+          </div>
+
+          <div class="block translations">
+            <h3>Book translations</h3>
+            <p>This book is translated into <a href="#">Spanish</a> and <a href="#">French</a>. You can help with more translations, on Github.</p>
+          </div>
+
+          <div class="block license">
+            <h3>License</h3>
+            <p>This book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 United States</a> license.</p>
+          </div>
+
+          <small class="small-text">Copyright 2013</small>
+
+        </div><!-- end footer-wrapper -->
+
+      </footer>
+
+
+    </div><!-- end page-wrapper -->
+
+    <!-- include scripts just before the close of the body tag -->
+     <%= javascript_include_tag "all" %>
+  </body>
+</html>
