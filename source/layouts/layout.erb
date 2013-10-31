@@ -10,7 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Use title if it's in the page YAML frontmatter -->
-    <title><%= current_page.data.title || "Bitbooks" %></title>
+    <!-- <title><%= current_page.data.title || "Bitbooks" %></title> -->
+    <title><%= discover_title %></title>
 
     <!-- Styles and fonts -->
     <%= stylesheet_link_tag "all" %>
@@ -56,6 +57,80 @@
                     <li>Chapter 6</li>
                   </ul>
                 </nav>
+              </div>
+
+              <div class="block nav-tree-test">
+                <h3>Navigation Test 1</h3>
+                
+                <p>List of information for the current page.</p>
+                <ul>
+                  <li>Source: <%= current_page.source_file.sub(root + "/", "") %> </li>
+                  <li>Path: <%= current_page.path %></li>
+                <% if current_page.parent %>
+                  <li>Parent: <%= current_page.parent.path %></li>
+                <% end %>
+                </ul>
+
+                <% if current_page.children %>
+                <ul>
+                  <% current_page.children.each do |p| %>
+                    <li>Child: <%= p.path %></li>
+                  <% end %>
+                </ul>
+                <% end %>
+
+                <% if current_page.siblings %>
+                <ul>
+                  <% current_page.siblings.each do |p| %>
+                    <li>Sibling: <%= p.path %></li>
+                  <% end %>
+                </ul>
+                <% end %>
+
+                <h3>Navigation Test 2</h3>
+
+                <p>Doing an "each" on all resources, printing the path, and listing any children they have in a sub list.</p>
+                <ul>
+                <% sitemap.resources.each do |resource| %>
+                  
+                  <!-- <% if resource.ext == '.html' %> -->
+                  <!-- && resource.children.count > 0 && resource.parent !=nil %> -->
+
+                    <li><%= resource.url %></li>
+
+                    <% if resource.children %>
+
+                      <ul>
+
+                        <% resource.children.each do |child| %>
+                          <li><%= child.url %></li>
+                        <% end %>
+
+                      </ul>
+                    <% end %>
+                  <!-- <% end %> -->
+                <% end %>
+                </ul>
+
+                <h3>Navigation Test 3</h3>
+                
+                <!-- This technique was originally found in the sitemap code I found -->
+                <p>Lists all markdown files by searching source files for ".md"</p>
+                <% pages = sitemap.resources.find_all{|p| p.source_file.match(/\.md/) } %>
+                <ul>
+                  <% pages.each do |p| %>
+                    <!-- gsub will substitute string 1 with string 2 -->
+                    <li><%= p.destination_path.gsub('/book/index.html','') %></li>
+                  <% end %>
+                </ul>
+
+                <h3>Navigation Test 4</h3>
+                <p></p>
+                <!-- <pre><%= sitemap.resources %></pre> -->
+
+                <h3>Navigation Test 5</h3>
+                <p>Something recursive. Coming soon></p>
+
               </div>
 
               <div class="block open-source">

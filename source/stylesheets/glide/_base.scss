@@ -282,7 +282,27 @@ textarea {
    Bitbooks base styles
    ========================================================================== */
 
+html {
+  @media screen and (min-width: $desktop-2) {
+    font-size: 1.250em; // 16px * 1.250em = 20px base font
+  }
 
+  @media screen and (max-width: $desktop-1) {
+    font-size: 1.125em; // 16px * 1em = 16px base font
+  }
+
+  @media screen and (max-width: $tablet-2) {
+    font-size: 1em; // 16px * 1em = 16px base font
+  }
+
+  @media screen and (max-width: $tablet-1) {
+    font-size: 0.875em; // 16px * 0.775em = 14px base font
+  }
+  
+  @media screen and (max-width: $phone-1) {
+    font-size: 0.750em; // 16px * 0.75em = 12px base font
+  }
+}
 
 /* apply a natural box layout model to all elements */
 *, *:before, *:after {
@@ -290,6 +310,11 @@ textarea {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
  }
+
+html, html a {
+  -webkit-font-smoothing: antialiased;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+}
 
 // The base font is equivalent to the default 16px.
 body {

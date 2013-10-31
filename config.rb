@@ -24,6 +24,9 @@
 #   page "/admin/*"
 # end
 
+# Disable layout on the sitemap page.
+page "/sitemap.xml", :layout => false
+
 # Proxy pages (http://middlemanapp.com/dynamic-pages/)
 # proxy "/this-page-has-no-template.html", "/template-file.html", :locals => {
 #  :which_fake_page => "Rendering a fake page with a local variable" }
@@ -39,20 +42,34 @@
 activate :livereload
 
 # Methods defined in the helpers block are available in templates
-# helpers do
-#   def some_helper
-#     "Helping"
-#   end
-# end
+helpers do
+
+  # Helper for getting the page title
+  # Based on this: http://forum.middlemanapp.com/t/using-heading-from-page-as-title/44/3
+  # Use the title from frontmatter metadata,
+  # or peek into the page to find the H1,
+  # or fallback to a filename-based-title
+
+  def discover_title(page = current_page)
+    if frontmatter_title = page.data.title
+      return frontmatter_title
+    elsif match = page.render({layout: false}).match(/<h.+>(.*?)<\/h1>/)
+      return match[1]
+    else
+      return page.url.split(/\//).last.titleize
+    end
+  end
+
+end
 
 set :css_dir, 'stylesheets/glide'
-
 set :js_dir, 'javascripts'
-
 set :images_dir, 'images'
-
 set :index_file, 'book/index.html'
 
+# Pretty URLs. For more info, see http://middlemanapp.com/pretty-urls/
+activate :directory_indexes
+set :trailing_slash, 'false'
 
 # Build-specific configuration
 configure :build do
