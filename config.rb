@@ -60,12 +60,29 @@ helpers do
     end
   end
 
+  # Helper for building a content tree
+  # Accepts a single sitemap resource.
+  def content_tree(page)
+    if page.children
+      # tag :ul, :class => 'level', true
+      page.children.each do |child_page| 
+        content_tree(child_page)
+      end
+      return "<p>last child page reached</p>"
+      # return "</ul>"
+    else
+      return "<p>page has no children</p>"
+      # return "<li>" + link_to(page_title(page), page) + "</li>"
+    end
+    return "<span>it worked</span>"
+  end
+
 end
 
 set :css_dir, 'stylesheets/glide'
 set :js_dir, 'javascripts'
 set :images_dir, 'images'
-set :index_file, 'book/index.html'
+# set :index_file, 'book/index.html' # <---- This setting seems to throw off the navigation tree when on.
 
 # Pretty URLs. For more info, see http://middlemanapp.com/pretty-urls/
 activate :directory_indexes

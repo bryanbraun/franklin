@@ -283,24 +283,30 @@ textarea {
    ========================================================================== */
 
 html {
-  @media screen and (min-width: $desktop-2) {
-    font-size: 1.250em; // 16px * 1.250em = 20px base font
+  /* Too Small */
+  
+  @media screen and (max-width: $phone-1) {
+    font-size: 0.875em; // 16px * 0.875em = 14px base font
   }
-
-  @media screen and (max-width: $desktop-1) {
-    font-size: 1.125em; // 16px * 1em = 16px base font
-  }
-
-  @media screen and (max-width: $tablet-2) {
+  
+  @media screen and (min-width: $phone-1) {
     font-size: 1em; // 16px * 1em = 16px base font
   }
 
-  @media screen and (max-width: $tablet-1) {
-    font-size: 0.875em; // 16px * 0.775em = 14px base font
+  @media screen and (min-width: $tablet-1) {
+    font-size: 1em; // 16px * 1em = 16px base font
   }
-  
-  @media screen and (max-width: $phone-1) {
-    font-size: 0.750em; // 16px * 0.75em = 12px base font
+
+  @media screen and (min-width: $tablet-2) {
+    font-size: 1.125em; // 16px * 1.125em = 18px base font
+  }
+
+  @media screen and (min-width: $desktop-1) {
+    font-size: 1.250em; // 16px * 1.250em = 20px base font
+  }
+
+  @media screen and (min-width: $desktop-2) {
+    font-size: 1.375em; // 16px * 1.375em = 22px base font
   }
 }
 
@@ -377,4 +383,8 @@ a {
 
 p {
   color: #444;
+}
+
+ul {
+  -webkit-padding-start: 2em;
 }

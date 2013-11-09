@@ -8,12 +8,12 @@
 .book-title {
   font-family: $titles;
   font-size: 3.750em; // 60px / 16px
-  font-weight: 200;
+  font-weight: 100;
   margin: 0;
 }
 .book-author {
   font-family: $titles;
-  font-size: 1.25em; // 20px / 16px
+  font-size: 1em; // 16px / 16px
   font-weight: 200;
 }
 
@@ -24,7 +24,7 @@
   padding: 3em 1em;
 }
 .aside-content {
-  float: left;
+  float: right;
   width: 33%;
   padding-right: 3em;
   
@@ -39,14 +39,30 @@
       text-transform: uppercase;
     }
   }
+
+  // Reset sidebar content to full width for small devices.
+  @media screen and (max-width: $tablet-1) {
+    float: none;
+    width: 100%;
+    padding: 3em 0 0 0;
+    margin-top: 3em;
+    border-top: 1px solid #F2F2F2;
+  }
 }
 
 .main-content {
   width: 66%;
-  float: left;
+  float: right;
   
   h1:first-child {
     margin-top: 0;
+  }
+
+  // Reset main content to full width for small devices.
+  @media screen and (max-width: $tablet-1) {
+    float: none;
+    width: 100%;
+    padding-right: 0;
   }
 }
 
@@ -84,10 +100,7 @@
     width: 6em; // 96px / 18px
     text-align: center;
     color: white;
-    font-family: $titles;
-    font-weight: 300;
     text-decoration: none;
-    letter-spacing: 0.06em;
     background-color: $red;
   }
 }
@@ -161,15 +174,24 @@
 .footer-wrapper {
   max-width: $inside-width;
   margin: 0 auto;
+  padding: 0 1em;
   
   .block {
     font-size: 0.875em; // 16px * 0.875 = 14px <---- BASE FONT FOR FOOTER BLOCK CONTENT
     width: 33%;
-    padding-right: 1em;
+    padding-right: 3em;
     float: left;
+
+    &:nth-last-of-type(1) {
+      padding-right: 0;
+    }
 
     h3 {
       text-transform: uppercase;
+    }
+
+    @media screen and (max-width: $tablet-1) {
+      width: 100%;
     }
   }
 }

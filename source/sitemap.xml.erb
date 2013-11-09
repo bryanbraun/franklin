@@ -1,10 +1,17 @@
-<% pages = sitemap.resources.find_all{|p| p.source_file.match(/\.html/) } %>
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<% pages.each do |p| %>
-  <url>
-    <loc>http://bitbooks.cc/<%= p.destination_path.gsub('/index.html','') %></loc>
-    <priority>0.7</priority>
-  </url>
+
+<% sitemap.resources.each do |page| %>
+  <% if page.path.include? ".html" %>
+    <url>
+      <loc>http://your-url.bitbooks.cc<%= page.url %></loc>
+      <priority>0.5</priority>
+    </url>
+  <% end %>
 <% end %>
 </urlset>
+<%# <!-- Leaving this in as an example of how to query the list of resources --> %>
+<%# <!-- You can use the .gsub method to substitue part of the path with a given string --> %>
+<%# pages = sitemap.resources.find_all{|p| p.source_file.match(/\.html/) } %>
+<%# pages.each do |p| %>
+<%# end %>

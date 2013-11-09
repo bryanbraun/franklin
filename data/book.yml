@@ -1,5 +1,18 @@
+# Book metadata
 title: My Book
 author: Bryan Braun
 license: Creative Commons Attribution Non-commercial No Derivative Works 3.0
 license_url: http://creativecommons.org/licenses/by-nc-sa/3.0/us/
 github_url: http://github.com/bryanbraun/my-book
+
+# Book transations
+languages:
+  - Spanish
+  - Italian
+  - French
+
+# Book formats
+formats:
+  - PDF
+  - ePub
+  - mobi

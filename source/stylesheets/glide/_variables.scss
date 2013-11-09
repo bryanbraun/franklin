@@ -8,14 +8,16 @@ $light-blue: #2DDCFF;  // accent #2
 
 // Font stack
 $sans-serif: 'Helvetica Neue', helvetica, sans-serif;
-$titles: 'Raleway', 'Century Gothic', 'Helvetica Neue', helvetica, sans-serif;
+$titles: 'Helvetica Neue', helvetica, sans-serif;
+// $titles: 'Raleway', 'Century Gothic', 'Helvetica Neue', helvetica, sans-serif;
+
 
 // Values
 $inside-width: 58em;
 
 // Responsive
-$phone-1: 500px;
-$tablet-1: 700px;
+$phone-1: 460px;
+$tablet-1: 600px;
 $tablet-2: 900px;
 $desktop-1: 1200px;
 $desktop-2: 1400px;

@@ -30,10 +30,22 @@
       <![endif]-->
 
       <header class="page-header" role="banner">
-        <h1 class="book-title">Your Book Name</h1><span class="book-author">by Bryan Braun</span>
+        <h1 class="book-title"><%= data.book.title %></h1><span class="book-author">by <%= data.book.author %></span>
       </header>
 
         <div class="content-wrapper clearfix">
+
+          <section class="main-content" role="main">
+            <div class="main-content-source">
+              <%= yield %>
+            </div>
+            <nav class="main-content-nav clearfix" role="navigation">
+              <ul>
+                <li><a href="#" class="previous">Previous</a></li>
+                <li><a href="#" class="next">Next</a></li>
+              </ul>
+            </nav>
+          </section>
 
           <aside class="aside-content" role="complementary">
             <div class="aside-wrapper">
@@ -93,8 +105,8 @@
                 <ul>
                 <% sitemap.resources.each do |resource| %>
                   
-                  <!-- <% if resource.ext == '.html' %> -->
-                  <!-- && resource.children.count > 0 && resource.parent !=nil %> -->
+                  <%# if resource.ext == '.html' && resource.children.count > 0 && resource.parent !=nil %>
+                  <% if resource.ext == '.html' %>
 
                     <li><%= resource.url %></li>
 
@@ -108,7 +120,7 @@
 
                       </ul>
                     <% end %>
-                  <!-- <% end %> -->
+                  <% end %>
                 <% end %>
                 </ul>
 
@@ -125,33 +137,27 @@
                 </ul>
 
                 <h3>Navigation Test 4</h3>
-                <p></p>
-                <!-- <pre><%= sitemap.resources %></pre> -->
+                  <p>Recursive helper for the content tree.</p>
+                  <ul class="top-level">
+                    <% sitemap.resources.each do |content_page| %>
+                      <%= content_tree(content_page) %>
+                    <% end %>
+                  </ul>
 
                 <h3>Navigation Test 5</h3>
-                <p>Something recursive. Coming soon></p>
+
+
+                <pre><%#= sitemap.resources %></pre>
 
               </div>
 
               <div class="block open-source">
                 <h3>This book is open source</h3>
-                <p>The source of this book is <a href="#">hosted on Github</a>. Go, ahead. Check it out.</p>
+                <p>The source of this book is <a href="<%= data.book.github_url %>">hosted on Github</a>. Go, ahead. Check it out.</p>
               </div>
 
             </div><!-- end aside-wrapper -->
           </aside>
-
-          <section class="main-content" role="main">
-            <div class="main-content-source">
-              <%= yield %>
-            </div>
-            <nav class="main-content-nav clearfix" role="navigation">
-              <ul>
-                <li><a href="#" class="previous">Previous</a></li>
-                <li><a href="#" class="next">Next</a></li>
-              </ul>
-            </nav>
-          </section>
 
         </div><!-- end content-wrapper -->
 
@@ -161,17 +167,28 @@
 
           <div class="block downloads">
             <h3>Downloads</h3>
-            <p>Download this book in <a href="#">PDF</a>, <a href="#">ePub</a>, or <a href="#">mobi</a> form for free.</p>
+            <p>Download this book in 
+              <% data.book.formats.each do |f| %>
+                <a href="#"><%= f %></a>, 
+              <% end %>
+              form for free.
+            </p>
           </div>
 
           <div class="block translations">
             <h3>Book translations</h3>
-            <p>This book is translated into <a href="#">Spanish</a> and <a href="#">French</a>. You can help with more translations, on Github.</p>
+            <p>This book is translated into 
+              <% data.book.languages.each do |l| %>
+                <a href="#"><%= l %></a>, 
+              <% end %>
+              and <a href="#">English</a>.
+              You can help with more translations <a href="<%= data.book.github_url %>">on Github</a>.
+            </p>
           </div>
 
           <div class="block license">
             <h3>License</h3>
-            <p>This book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 United States</a> license.</p>
+            <p>This book is licensed under the <a href="<%= data.book.license_url %>"><%= data.book.license %></a> license.</p>
           </div>
 
           <small class="small-text">Copyright 2013</small>
@@ -184,6 +201,7 @@
     </div><!-- end page-wrapper -->
 
     <!-- include scripts just before the close of the body tag -->
-     <%= javascript_include_tag "all" %>
+    <%= javascript_include_tag "anchor.min" %>
+    <%= javascript_include_tag "all" %>
   </body>
 </html>
