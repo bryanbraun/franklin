@@ -19,25 +19,19 @@ class SourceTree < Middleman::Extension
 
   # Method for storing the directory structure in a hash.
   def directory_hash(path, options, name=nil)
-    # Maybe I can put something like "unless path == :source_dir, print the directory and and children labels."
-    # This would prevent the printing of the top level items.
-    #puts path
-    #puts options.source_dir
-    #unless path == options.source_dir
-      data = {"directory" => (name || path)}
-      data["children"] = children = []
-    #else
-      #data = children = []
-    #end
-    Dir.foreach(path) do |entry|
-      next if (entry == '..' || entry == '.')
+    data = {"directory" => (name || path)}
+    data["children"] = children = []
+    Dir.foreach(path) do |filename|
+      next if (filename == '..' || filename == '.')
       # Do not log any exceptions
-      next if options.exceptions.include? entry
-      full_path = File.join(path, entry)
+      next if options.exceptions.include? filename
+      full_path = File.join(path, filename)
       if File.directory?(full_path)
-        children << directory_hash(full_path, options, entry)
+        # This item is a directory... loop through the method again.
+        children << directory_hash(full_path, options, filename)
       else
-        children << entry
+        # This item is a file... store the filename.
+        children << filename
       end
     end
     return data
@@ -129,11 +123,7 @@ helpers do
   end
 
   #  Recursive helper for converting source tree data from a ruby hash into HTML
-  #  @TODO: Exception for README file (I think this would be a good option in the original extension)
-  #  @TODO: Don't print first parent directory (either here or when first storing the data... leaning towards fixing it on the storage side).
-  #  @TODO: Compare my nav list to other common site navs. I don't think it's quite nested perfectly. I think non-link
-  #         directory lables should be in spans, and nested ul's don't need to be inside li's. Just look into it.
-  #  If this is released publicaly, I think it would have to be packaged together. SourceTree + Hash_to_html (tree_data_to_html?) + discover_title
+  #  If this is released publicly, I think it would have to be packaged together. SourceTree + Hash_to_html (tree_data_to_html?) + discover_title
   #  I've got to think about if this solves issues that traversal doesn't.
 
   def hash_to_html(hash)
@@ -162,34 +152,6 @@ helpers do
 
       return html
   end
-
-# ORIGINAL
-#  def hash_list_tag(hash)
-#    html = content_tag(:ul) {
-#      ul_contents = ""
-#      ul_contents << content_tag(:li, hash[:parent])
-#      hash[:children].each do |child|
-#        ul_contents << hash_list_tag(child)
-#      end
-#
-#      ul_contents.html_safe
-#    }.html_safe
-#  end
-
-#  Helper for converting source tree into HTML
-#  def hash_to_html key,value
-#    if value.nil?
-#      return "<li>#{key}</li>"
-#    elsif value.is_a?(Hash)
-#      string = "<li>#{key}"
-#      string << "<ul>"
-#      string << value.each(&method(:hash_to_html))
-#      string << "</ul></li>"
-#      return string
-#    else
-#      puts "I don't know what to do with a #{value.class}"
-#    end
-#  end
 
 end
 
