@@ -57,6 +57,8 @@ GEM
       multi_json (~> 1.0)
       rack-livereload
     middleman-more (3.1.6)
+    middleman-pagination (1.0.2)
+      middleman-core (~> 3.1.6)
     middleman-sprockets (3.1.4)
       middleman-core (>= 3.0.14)
       middleman-more (>= 3.0.14)
@@ -99,6 +101,7 @@ PLATFORMS
 DEPENDENCIES
   middleman (~> 3.1.5)
   middleman-livereload (~> 3.1.0)
+  middleman-pagination
   ruby18_source_location
   titleize
   wdm (~> 0.1.0)

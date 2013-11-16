@@ -40,6 +40,21 @@
               <%= yield %>
             </div>
             <nav class="main-content-nav clearfix" role="navigation">
+              <%# pagination.each do |book_page| %>
+                - <%#= link_to discover_title(book_page), book_page.url %>
+              <%# end %>
+
+              Page <%#= pagination.page_num %> of <%#= pagination.total_page_num %>
+
+              Showing <%#= pagination.per_page %> per page
+
+              <%#= link_to "First page", pagination.first_page.url %>
+
+              <%#= link_to "Prev page", pagination.prev_page.url if pagination.prev_page %>
+
+              <%#= link_to "Next page", pagination.next_page.url if pagination.next_page %>
+
+              <%#= link_to "Last page", pagination.first_page.url %>
               <ul>
                 <li><a href="#" class="previous">Previous</a></li>
                 <li><a href="#" class="next">Next</a></li>
@@ -137,16 +152,17 @@
                 </ul>
 
                 <h3>Navigation Test 4</h3>
-                  <p>Recursive helper for the content tree.</p>
+                  <p>Data driven Tree.</p>
                   <ul class="top-level">
-                    <% sitemap.resources.each do |content_page| %>
-                      <%= content_tree(content_page) %>
-                    <% end %>
+                    <%=  hash_to_html(@source_tree) %>
                   </ul>
 
                 <h3>Navigation Test 5</h3>
-
-
+                  <p>2nd data driven Tree.</p>
+                  <ul class="top-level">
+                    <li><%=  @source_tree %></li>
+                    <li><%=  @source_tree_down_one %></li>
+                  </ul>
                 <pre><%#= sitemap.resources %></pre>
 
               </div>

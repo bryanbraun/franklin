@@ -1,0 +1,18 @@
+---
+directory: source/book
+children:
+- directory: ch1
+  children:
+  - 01-introduction.md
+  - 02-getting-started.md
+  - directory: section-1
+    children:
+    - 01-introduction.md
+    - 02-getting-started.md
+    - index.html.erb
+- directory: ch2
+  children:
+  - 01-moving-along.md
+  - 02-wrapping-up.md
+  - index.html.erb
+- index.html.erb

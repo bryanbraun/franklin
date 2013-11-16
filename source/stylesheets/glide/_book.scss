@@ -102,6 +102,7 @@
     color: white;
     text-decoration: none;
     background-color: $red;
+    transition: background-color 0.15s ease-in;
   }
 }
 
@@ -122,6 +123,7 @@
     border-style: solid;
     border-width: 1.625em 1em 1.625em 0.5em; // 26px 16px 26px 8px (all / 16px)
     //border-width: 1.444em 0.889em 1.444em 0.444em; // 26px 16px 26px 8px (all / 18px)
+    transition: border-color 0.15s ease-in;
     
   }
 
@@ -152,6 +154,7 @@
     border-style: solid;
     border-width: 1.625em 0.5em 1.625em 1em; // 26px 8px 26px 16px (all / 16px)
     //border-width: 1.444em 0.444em 1.444em 0.889em; // 26px 8px 26px 16px (all / 18px)
+    transition: border-color 0.15s ease-in;
     
   }
 
