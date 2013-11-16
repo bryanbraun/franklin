@@ -202,14 +202,6 @@ set :images_dir, 'images'
 activate :directory_indexes
 set :trailing_slash, 'false'
 
-# Pagination configuration, via the Middleman Pagination Gem. See https://github.com/Aupajo/middleman-pagination.
-activate :pagination do
-  pageable :book do |page|
-    # Match any page that lives in the "book" directory
-    page.path.start_with?('book/')
-  end
-end
-
 # Build-specific configuration
 configure :build do
   # For example, change the Compass output style for deployment
