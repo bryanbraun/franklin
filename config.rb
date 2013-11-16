@@ -153,7 +153,13 @@ helpers do
           html << hash_to_html(child)
         end
         html << '</ul></li>'
+      elsif hash.is_a?(Array)
+        # This is a collection. It could contain files, directories, or both.
+        hash.each do |y|
+          html << hash_to_html(y)
+        end
       end
+
       return html
   end
 

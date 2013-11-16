@@ -154,7 +154,13 @@
                 <h3>Navigation Test 4</h3>
                   <p>Data driven Tree.</p>
                   <ul class="top-level">
-                    <%=  hash_to_html(@source_tree) %>
+                    <%=  hash_to_html(data['tree']) %>
+                  </ul>
+                  <ul>
+                    <%= hash_to_html(data['tree']['children']) %>
+                  </ul>
+                  <ul>
+                    <%= hash_to_html(data['tree']['children'][0]) %>
                   </ul>
 
                 <h3>Navigation Test 5</h3>
@@ -162,6 +168,7 @@
                   <ul class="top-level">
                     <li><%=  @source_tree %></li>
                     <li><%=  @source_tree_down_one %></li>
+                    <li><%= data['tree']['children'][0] %></li>
                   </ul>
                 <pre><%#= sitemap.resources %></pre>
 
