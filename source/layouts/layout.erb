@@ -40,21 +40,6 @@
               <%= yield %>
             </div>
             <nav class="main-content-nav clearfix" role="navigation">
-              <%# pagination.each do |book_page| %>
-                - <%#= link_to discover_title(book_page), book_page.url %>
-              <%# end %>
-
-              Page <%#= pagination.page_num %> of <%#= pagination.total_page_num %>
-
-              Showing <%#= pagination.per_page %> per page
-
-              <%#= link_to "First page", pagination.first_page.url %>
-
-              <%#= link_to "Prev page", pagination.prev_page.url if pagination.prev_page %>
-
-              <%#= link_to "Next page", pagination.next_page.url if pagination.next_page %>
-
-              <%#= link_to "Last page", pagination.first_page.url %>
               <ul>
                 <li><a href="#" class="previous">Previous</a></li>
                 <li><a href="#" class="next">Next</a></li>
@@ -154,21 +139,25 @@
                 <h3>Navigation Test 4</h3>
                   <p>Data driven Tree.</p>
                   <ul class="top-level">
-                    <%=  hash_to_html(data['tree']) %>
+                    <%=  data_to_html(data['tree']) %>
                   </ul>
                   <ul>
-                    <%= hash_to_html(data['tree']['children']) %>
+                    <%= data_to_html(data['tree']['source/book']) %>
                   </ul>
                   <ul>
-                    <%= hash_to_html(data['tree']['children'][0]) %>
+                    <%= data_to_html(data['tree']['source/book'][0]) %>
+                  </ul>
+                  <ul>
+                    <%= data_to_html(data['tree']['source/book'][1]) %>
                   </ul>
 
                 <h3>Navigation Test 5</h3>
                   <p>2nd data driven Tree.</p>
                   <ul class="top-level">
                     <li><%=  @source_tree %></li>
-                    <li><%=  @source_tree_down_one %></li>
-                    <li><%= data['tree']['children'][0] %></li>
+                    <li><%= data['tree']['source/book'] %></li>
+                    <li><%= data['tree']['source/book'][0] %></li>
+                    <li><%= data['tree']['source/book'][1] %></li>
                   </ul>
                 <pre><%#= sitemap.resources %></pre>
 

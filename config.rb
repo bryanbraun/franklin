@@ -7,7 +7,7 @@ class SourceTree < Middleman::Extension
   # All the options for this extension
   option :source_dir, 'source', 'The directory our tree will begin at.'
   option :data_file, 'data/tree.yml', 'The file we will write our directory tree to.'
-  option :exceptions, '', 'A list of filenames we want to ignore when building our tree.'
+  option :ignore, '', 'A list of filenames we want to ignore when building our tree.'
 
   def initialize(app, options_hash={}, &block)
     super
@@ -19,12 +19,12 @@ class SourceTree < Middleman::Extension
 
   # Method for storing the directory structure in a hash.
   def directory_hash(path, options, name=nil)
-    data = {"directory" => (name || path)}
-    data["children"] = children = []
+    data = {}
+    data["#{(name || path)}"] = children = []
     Dir.foreach(path) do |filename|
       next if (filename == '..' || filename == '.')
-      # Do not log any exceptions
-      next if options.exceptions.include? filename
+      # Check to see if we should ignore this file.
+      next if options.ignore.include? filename
       full_path = File.join(path, filename)
       if File.directory?(full_path)
         # This item is a directory... loop through the method again.
@@ -44,20 +44,12 @@ end
 activate :source_tree do |options|
   options.source_dir = 'source/book'
   options.data_file = 'data/tree.yml'
-  options.exceptions = ['readme.md', 'readme.txt', 'license.md']
+  options.ignore = ['readme.md', 'readme.txt', 'license.md']
 end
 
 ####################################
 # END OF EXTENSION. WHOOO HOO!
 #######################################
-
-
-# Define a source tree hash for use in helpers/templates
-@source_tree = data['tree']
-@source_tree_down_one = data['tree']['children']
-
-
-
 
 
 ###
@@ -126,27 +118,30 @@ helpers do
   #  If this is released publicly, I think it would have to be packaged together. SourceTree + Hash_to_html (tree_data_to_html?) + discover_title
   #  I've got to think about if this solves issues that traversal doesn't.
 
-  def hash_to_html(hash)
+  def data_to_html(value, key=nil)
       html = ''
-      if hash.is_a?(String)
+      if value.is_a?(String)
         # This is a child item (file). Get the Sitemap resource for this file.
-        this_resource = sitemap.resources.find{|r| r.source_file.match(/#{hash}/) }
+        this_resource = sitemap.resources.find{|r| r.source_file.match(/#{value}/) }
         # Define string for active states.
         active = this_resource == current_page ? 'active' : ''
         title = discover_title(this_resource)
         html << "<li class='child #{active}'><a href='#{this_resource.url}'>#{title}</a></li>"
-      elsif hash.is_a?(Hash)
+      elsif value.is_a?(Hash)
         # This is a parent item (directory)
-        html << "<li class='parent'><span class='parent-label'>#{hash['directory'].gsub(/-/, ' ').gsub(/_/, ' ').titleize}</span>"
+        dir_name = key.nil? ? value.keys[0] : key
+
+        html << "<li class='parent'><span class='parent-label'>#{dir_name.gsub(/-/, ' ').gsub(/_/, ' ').titleize}</span>"
         html << '<ul>'
-        hash['children'].each do |child|
-          html << hash_to_html(child)
+        value.each do |key, child|
+          html << data_to_html(child, key)
         end
-        html << '</ul></li>'
-      elsif hash.is_a?(Array)
+        html << '</ul>'
+        html << '</li>'
+      elsif value.is_a?(Array)
         # This is a collection. It could contain files, directories, or both.
-        hash.each do |y|
-          html << hash_to_html(y)
+        value.each do |y|
+          html << data_to_html(y)
         end
       end
 
