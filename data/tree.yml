@@ -1,14 +1,12 @@
 ---
 source/book:
 - ch1:
-  - 01-introduction.md
-  - 02-getting-started.md
   - section-1:
     - 01-introduction.md
     - 02-getting-started.md
-    - index.html.erb
+  - section-2:
+    - 01-a-new-section.md
+    - 02-another-step.md
 - ch2:
   - 01-moving-along.md
   - 02-wrapping-up.md
-  - index.html.erb
-- index.html.erb

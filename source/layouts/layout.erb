@@ -41,8 +41,10 @@
             </div>
             <nav class="main-content-nav clearfix" role="navigation">
               <ul>
-                <li><a href="#" class="previous">Previous</a></li>
-                <li><a href="#" class="next">Next</a></li>
+                <li><%= previous_link %></li>
+                <li><%= next_link %></li>
+               <!-- <li><a href="#" class="previous">Previous</a></li> -->
+               <!-- <li><a href="#" class="next">Next</a></li> -->
               </ul>
             </nav>
           </section>
@@ -52,115 +54,12 @@
 
               <div class="block table-of-contents">
                 <h3>Table of Contents</h3>
+                <p>Data driven Tree.</p>
                 <nav role="navigation">
-                  <ul>
-                    <li>Chapter 1</li>
-                      <ul>
-                        <li>Section 1</li>
-                        <li>Section 2</li>
-                        <li>Section 3</li>
-                        <li>Section 4</li>
-                        <li>Section 5</li>
-                      </ul>
-                    <li>Chapter 2</li>
-                    <li>Chapter 3</li>
-                    <li>Chapter 4</li>
-                    <li>Chapter 5</li>
-                    <li>Chapter 6</li>
-                  </ul>
-                </nav>
-              </div>
-
-              <div class="block nav-tree-test">
-                <h3>Navigation Test 1</h3>
-                
-                <p>List of information for the current page.</p>
-                <ul>
-                  <li>Source: <%= current_page.source_file.sub(root + "/", "") %> </li>
-                  <li>Path: <%= current_page.path %></li>
-                <% if current_page.parent %>
-                  <li>Parent: <%= current_page.parent.path %></li>
-                <% end %>
-                </ul>
-
-                <% if current_page.children %>
-                <ul>
-                  <% current_page.children.each do |p| %>
-                    <li>Child: <%= p.path %></li>
-                  <% end %>
-                </ul>
-                <% end %>
-
-                <% if current_page.siblings %>
-                <ul>
-                  <% current_page.siblings.each do |p| %>
-                    <li>Sibling: <%= p.path %></li>
-                  <% end %>
-                </ul>
-                <% end %>
-
-                <h3>Navigation Test 2</h3>
-
-                <p>Doing an "each" on all resources, printing the path, and listing any children they have in a sub list.</p>
-                <ul>
-                <% sitemap.resources.each do |resource| %>
-                  
-                  <%# if resource.ext == '.html' && resource.children.count > 0 && resource.parent !=nil %>
-                  <% if resource.ext == '.html' %>
-
-                    <li><%= resource.url %></li>
-
-                    <% if resource.children %>
-
-                      <ul>
-
-                        <% resource.children.each do |child| %>
-                          <li><%= child.url %></li>
-                        <% end %>
-
-                      </ul>
-                    <% end %>
-                  <% end %>
-                <% end %>
-                </ul>
-
-                <h3>Navigation Test 3</h3>
-                
-                <!-- This technique was originally found in the sitemap code I found -->
-                <p>Lists all markdown files by searching source files for ".md"</p>
-                <% pages = sitemap.resources.find_all{|p| p.source_file.match(/\.md/) } %>
-                <ul>
-                  <% pages.each do |p| %>
-                    <!-- gsub will substitute string 1 with string 2 -->
-                    <li><%= p.destination_path.gsub('/book/index.html','') %></li>
-                  <% end %>
-                </ul>
-
-                <h3>Navigation Test 4</h3>
-                  <p>Data driven Tree.</p>
-                  <ul class="top-level">
-                    <%=  data_to_html(data['tree']) %>
-                  </ul>
                   <ul>
                     <%= data_to_html(data['tree']['source/book']) %>
                   </ul>
-                  <ul>
-                    <%= data_to_html(data['tree']['source/book'][0]) %>
-                  </ul>
-                  <ul>
-                    <%= data_to_html(data['tree']['source/book'][1]) %>
-                  </ul>
-
-                <h3>Navigation Test 5</h3>
-                  <p>2nd data driven Tree.</p>
-                  <ul class="top-level">
-                    <li><%=  @source_tree %></li>
-                    <li><%= data['tree']['source/book'] %></li>
-                    <li><%= data['tree']['source/book'][0] %></li>
-                    <li><%= data['tree']['source/book'][1] %></li>
-                  </ul>
-                <pre><%#= sitemap.resources %></pre>
-
+                </nav>
               </div>
 
               <div class="block open-source">

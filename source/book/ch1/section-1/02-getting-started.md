@@ -1,4 +1,4 @@
-# Introduction
+# Getting Started
 
 This is an introduction to my book, written in markdown. 
 
