@@ -365,11 +365,11 @@ h6 {
 }
 
 a {
-  color: $red;
-  text-decoration: underline;
+    color: $red;
+    text-decoration: underline;
 
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
 
   &:visited {
@@ -379,6 +379,11 @@ a {
   &:active {
 
   }
+  &:focus {
+    background-color: $red;
+    color: white;
+    text-decoration: none;
+  }
 }
 
 p {
@@ -387,4 +392,81 @@ p {
 
 ul {
   -webkit-padding-start: 2em;
+}
+
+blockquote {
+  font-style: italic;
+  margin-left: 1.94em;
+}
+
+table {
+  margin: 1em 0;
+  width: 100%;
+}
+
+th,
+td {
+  border: solid 1px #ccc;
+  padding: 5px 11px;
+  vertical-align: top;
+}
+
+/**
+ * 'Simple' styling for code examples
+ */
+code,
+samp,
+kbd {
+  font-family: "Courier", monospace;
+  padding: 0 6px;
+  text-align: left;
+}
+
+pre {
+  font-family: "Courier", monospace;
+  line-height: 1.2em;
+  margin: 1.2em 0;
+  overflow: auto;
+  padding: 0 0 0 1.5em;
+}
+
+/**
+* Override 'code' css rules if using 'pre > code' markup.
+*/
+pre > code {
+  padding: 0;
+}
+
+/**
+ * target IE7 and IE6
+ */
+*:first-child+html pre {
+  overflow: visible;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2em;
+}
+
+* html pre {
+  overflow: visible;
+  overflow-x: auto;
+  padding-bottom: 2em;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+    resize: vertical;
 }

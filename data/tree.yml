@@ -1,12 +1,12 @@
 ---
 source/book:
-- ch1:
+- chapter-1:
   - section-1:
     - 01-introduction.md
-    - 02-getting-started.md
+    - 02-styleguide.md
   - section-2:
     - 01-a-new-section.md
     - 02-another-step.md
-- ch2:
+- chapter-2:
   - 01-moving-along.md
   - 02-wrapping-up.md

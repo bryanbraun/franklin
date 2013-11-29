@@ -68,6 +68,22 @@
 
 // Sidebar
 
+.table-of-contents {
+  ul {
+      list-style-type: none;
+      padding-left: 1em;
+  }
+  li.child {
+      line-height: 1;
+      padding: 2px 0 8px 0;
+  }
+  // First level of nav.
+  nav > ul {
+      padding: 0;
+      -webkit-padding-start: 0;
+  }
+}
+
 // Main
 .main-content-source {
   margin-bottom: 2em;
@@ -110,6 +126,10 @@
   font-weight: bold;
 }
 
+a.anchor-link:focus {
+  background-color: transparent;
+}
+
 .previous {
   position: relative;
   margin-left: 1em;
@@ -131,12 +151,12 @@
     
   }
 
-  &:hover {
-    background: darken($red, 4%);
+  &:hover, &:focus {
+    background: darken($red, 8%);
   }
 
-  &:hover:after {
-    border-color: transparent darken($red, 4%) transparent transparent;
+  &:hover:after, &:focus:after {
+    border-color: transparent darken($red, 8%) transparent transparent;
     
   }
 }
@@ -162,12 +182,12 @@
     
   }
 
-  &:hover {
-    background: darken($red, 4%);
+  &:hover, &:focus {
+    background: darken($red, 8%);
   }
 
-  &:hover:after {
-    border-color: transparent transparent transparent darken($red, 4%);
+  &:hover:after, &:focus:after {
+    border-color: transparent transparent transparent darken($red, 8%);
     
   }
 }

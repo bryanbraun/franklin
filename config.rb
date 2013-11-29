@@ -7,7 +7,8 @@ class SourceTree < Middleman::Extension
   # All the options for this extension
   option :source_dir, 'source', 'The directory our tree will begin at.'
   option :data_file, 'data/tree.yml', 'The file we will write our directory tree to.'
-  option :ignore, '', 'A list of filenames we want to ignore when building our tree.'
+  option :ignore_files, '', 'A list of filenames we want to ignore when building our tree.'
+  option :ignore_dir, '', 'A list of directory names we want to ignore when building our tree.'
 
   def initialize(app, options_hash={}, &block)
     super
@@ -28,10 +29,14 @@ class SourceTree < Middleman::Extension
     Dir.foreach(path) do |filename|
       next if (filename == '..' || filename == '.')
       # Check to see if we should ignore this file.
-      next if options.ignore.include? filename
+      next if options.ignore_files.include? filename
       full_path = File.join(path, filename)
       if File.directory?(full_path)
-        # This item is a directory... loop through the method again.
+        # This item is a directory.
+        # Check to see if we should ignore this directory.
+        next if options.ignore_dir.include? filename
+
+        # Loop through the method again.
         children << scan_directory(full_path, options, filename)
       else
         # This item is a file... store the filename.
@@ -94,7 +99,8 @@ end
 activate :source_tree do |options|
   options.source_dir = 'source/book'
   options.data_file = 'data/tree.yml'
-  options.ignore = ['readme.md', 'readme.txt', 'license.md']
+  options.ignore_files = ['readme.md', 'readme.txt', 'license.md']
+  options.ignore_dir = ['images', 'img', 'image', 'assets']
 end
 
 ####################################
@@ -326,14 +332,25 @@ helpers do
 
 end
 
+# An attempt to fix links to images from content, and links to assets outside the source folder.
+# To be honest, I can't see what this is really doing.
+# set :relative_links, true
+
 set :css_dir, 'stylesheets/glide'
 set :js_dir, 'javascripts'
 set :images_dir, 'images'
+set :layouts_dir, 'layouts'
+
+# Changing source file, for organizational purposes, and flexibility in defining source locations.
+# This causes some defaults to break, so I'll need to explicitly define other settings
+set :source, "source"
+#set :source, "source/book"
+
 # set :index_file, 'book/index.html' # <---- This setting seems to throw off navigation tree traversal when on.
 
 # Pretty URLs. For more info, see http://middlemanapp.com/pretty-urls/
-activate :directory_indexes
-set :trailing_slash, 'false'
+#activate :directory_indexes
+#set :trailing_slash, 'false'
 
 # Build-specific configuration
 configure :build do
