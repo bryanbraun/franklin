@@ -14,23 +14,31 @@
     <title><%= discover_title %></title>
 
     <!-- Styles and fonts -->
-    <%= stylesheet_link_tag "all" %>
-    <link href='http://fonts.googleapis.com/css?family=Raleway:300,200&subset=latin,cyrillic-ext,greek,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
+    <%= stylesheet_link_tag "all/all" %>
+    <%= stylesheet_link_tag "epsilon/epsilon" %>
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700|Noticia+Text:400,400italic,700,700italic&subset=latin,latin-ext,vietnamese' rel='stylesheet' type='text/css'>
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-    <%= javascript_include_tag  "modernizr" %>
+    <%= javascript_include_tag  "all/modernizr" %>
   </head>
 
-  <body class="<%= page_classes %>">
+  <body class="<%= page_classes %> epsilon">
     <div class="page-wrapper">
-      
       <!--[if lt IE 7]>
           <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
-
+      <a id="menu-toggle" class="menu-toggle" href="#sidr"><span class="bitcon-list"></span><span class="menu-toggle-text">Toggle Menu</span></a>
       <header class="page-header" role="banner">
-        <h1 class="book-title"><%= data.book.title %></h1><span class="book-author">by <%= data.book.author %></span>
+        <%# @todo: only link to the index page if there is an index.md file %>
+        <% link_to '/book/index.html', :class => "invisilink" do %>
+          <% if ['index.html', 'book/index.html'].include? current_page.path %>
+            <h1 class="book-title"><%= data.book.title %></h1>
+          <% else %>
+            <span class="book-title"><%= data.book.title %></span>
+          <% end %>
+        <% end %>
+        <span class="book-author">by <%= data.book.author %></span>
       </header>
 
         <div class="content-wrapper clearfix">
@@ -43,18 +51,15 @@
               <ul>
                 <li><%= previous_link %></li>
                 <li><%= next_link %></li>
-               <!-- <li><a href="#" class="previous">Previous</a></li> -->
-               <!-- <li><a href="#" class="next">Next</a></li> -->
               </ul>
             </nav>
           </section>
 
-          <aside class="aside-content" role="complementary">
+          <aside id="sidr" class="aside-content" role="complementary">
             <div class="aside-wrapper">
 
               <div class="block table-of-contents">
                 <h3>Table of Contents</h3>
-                <p>Data driven Tree.</p>
                 <nav role="navigation">
                   <ul>
                     <%= data_to_html(data['tree']['source/book']) %>
@@ -67,52 +72,50 @@
                 <p>The source of this book is <a href="<%= data.book.github_url %>">hosted on Github</a>. Go, ahead. Check it out.</p>
               </div>
 
+              <div class="block downloads">
+                <h3>Downloads</h3>
+                <p>Download this book in 
+                  <% data.book.formats.each do |f| %>
+                    <a href="#"><%= f %></a>, 
+                  <% end %>
+                  form for free.
+                </p>
+              </div>
+
+              <div class="block translations">
+                <h3>Book translations</h3>
+                <p>This book is translated into 
+                  <% data.book.languages.each do |l| %>
+                    <a href="#"><%= l %></a>, 
+                  <% end %>
+                  and <a href="#">English</a>.
+                  You can help with more translations <a href="<%= data.book.github_url %>">on Github</a>.
+                </p>
+              </div>
+
+              <div class="block license">
+                <h3>License</h3>
+                <p>This book is licensed under the <a href="<%= data.book.license_url %>"><%= data.book.license %></a> license.</p>
+              </div>
+
             </div><!-- end aside-wrapper -->
           </aside>
 
         </div><!-- end content-wrapper -->
 
       <footer class="page-footer">
-
         <div class="footer-wrapper">
-
-          <div class="block downloads">
-            <h3>Downloads</h3>
-            <p>Download this book in 
-              <% data.book.formats.each do |f| %>
-                <a href="#"><%= f %></a>, 
-              <% end %>
-              form for free.
-            </p>
-          </div>
-
-          <div class="block translations">
-            <h3>Book translations</h3>
-            <p>This book is translated into 
-              <% data.book.languages.each do |l| %>
-                <a href="#"><%= l %></a>, 
-              <% end %>
-              and <a href="#">English</a>.
-              You can help with more translations <a href="<%= data.book.github_url %>">on Github</a>.
-            </p>
-          </div>
-
-          <div class="block license">
-            <h3>License</h3>
-            <p>This book is licensed under the <a href="<%= data.book.license_url %>"><%= data.book.license %></a> license.</p>
-          </div>
-
           <small class="small-text">Copyright 2013</small>
-
         </div><!-- end footer-wrapper -->
-
       </footer>
-
 
     </div><!-- end page-wrapper -->
 
     <!-- include scripts just before the close of the body tag -->
-    <%= javascript_include_tag "anchor.min" %>
-    <%= javascript_include_tag "all" %>
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <%= javascript_include_tag "epsilon/epsilon" %>
+    <%= javascript_include_tag "epsilon/jquery.sidr.min" %>
+    <%= javascript_include_tag "all/anchor.min" %>
+    <%= javascript_include_tag "all/all" %>
   </body>
 </html>

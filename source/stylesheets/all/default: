@@ -1,0 +1,12 @@
+default:
+  paths:
+    features: tests/features
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte: ~
+      selenium2: ~
+      default_session: goutte
+      javascript_session: selenium2
+      base_url: http://seven.local:8083
+    Drupal\DrupalExtension\Extension:
+      blackbox: ~

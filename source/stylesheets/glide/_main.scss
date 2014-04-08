@@ -1,21 +1,44 @@
 // Header
 .page-header {
   // Prevent margin from pushing through container.
-  padding: 3em 0;
   background-color: $light-gray;
   text-align: center;
+  padding: 2em 0;
+
+  // Overrides for the index page
+  .book_index &,
+  .index & {
+    padding: 3em 0;
+  }
 }
 .book-title {
   font-family: $titles;
-  font-size: 3.750em; // 60px / 16px
   font-weight: 100;
+  font-size: 2.50em; // 40px / 16px
+  display: block;
   margin: 0;
+
+  // Overrides for the index page
+  .book_index &,
+  .index & {
+    font-size: 3em; // 60px / 16px
+    padding: 0;
+  }
 }
-.book-author {
-  font-family: $titles;
+.book_index .book-author,
+.index .book-author {
   font-size: 1em; // 16px / 16px
-  font-weight: 200;
+  font-family: $titles;
+
+  // Override visually hidden
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
 }
+
 
 // Layout
 .content-wrapper {
@@ -25,9 +48,13 @@
 }
 .aside-content {
   float: right;
-  width: 33%;
-  padding-right: 3em;
-  
+  width: 36%;
+  padding-right: 6em;
+
+  @media screen and (max-width: $tablet-2) {
+    padding-right: 3em;
+  }
+
   .block {
     font-size: 0.875em; // 16px * 0.875 = 14px <---- BASE FONT FOR ASIDE BLOCK CONTENT
 
@@ -36,7 +63,8 @@
     }
 
     h3 {
-      text-transform: uppercase;
+      font-family: $titles;
+      font-size: 1.2em;
     }
   }
 
@@ -51,9 +79,9 @@
 }
 
 .main-content {
-  width: 66%;
+  width: 64%;
   float: right;
-  
+
   h1:first-child {
     margin-top: 0;
   }
@@ -69,6 +97,8 @@
 // Sidebar
 
 .table-of-contents {
+  margin-bottom: 3.5em;
+
   ul {
       list-style-type: none;
       padding-left: 1em;
@@ -139,16 +169,12 @@ a.anchor-link:focus {
     position: absolute;
     top: -0.313em; // -5px / 16px
     left: -1.375em; // -22px / 16px
-    //top: -0.278em; // -5px / 18px
-    //left: -1.222em; // -22px / 18px
     width: 0;
     height: 0;
     border-color: transparent $red transparent transparent;
     border-style: solid;
     border-width: 1.625em 1em 1.625em 0.5em; // 26px 16px 26px 8px (all / 16px)
-    //border-width: 1.444em 0.889em 1.444em 0.444em; // 26px 16px 26px 8px (all / 18px)
     transition: border-color 0.15s ease-in;
-    
   }
 
   &:hover, &:focus {
@@ -157,7 +183,6 @@ a.anchor-link:focus {
 
   &:hover:after, &:focus:after {
     border-color: transparent darken($red, 8%) transparent transparent;
-    
   }
 }
 
@@ -170,16 +195,12 @@ a.anchor-link:focus {
     position: absolute;
     top: -0.313em; // -5px / 16px
     right: -1.375em; // -22px / 16px
-    //top: -0.278em; // -5px / 18px
-    //left: -1.222em; // -22px / 18px
     width: 0;
     height: 0;
     border-color: transparent transparent transparent $red;
     border-style: solid;
     border-width: 1.625em 0.5em 1.625em 1em; // 26px 8px 26px 16px (all / 16px)
-    //border-width: 1.444em 0.444em 1.444em 0.889em; // 26px 8px 26px 16px (all / 18px)
     transition: border-color 0.15s ease-in;
-    
   }
 
   &:hover, &:focus {
@@ -188,7 +209,6 @@ a.anchor-link:focus {
 
   &:hover:after, &:focus:after {
     border-color: transparent transparent transparent darken($red, 8%);
-    
   }
 }
 
@@ -202,23 +222,34 @@ a.anchor-link:focus {
   max-width: $inside-width;
   margin: 0 auto;
   padding: 0 1em;
-  
+
+  .license {
+    width: 30%;
+    padding-right: 0;
+  }
+
+  .downloads,
+  .translations {
+    width: 35%;
+    padding-right: 3em;
+
+    @media screen and (max-width: $tablet-2) {
+      padding-right: 2em;
+    }
+  }
+
   .block {
     font-size: 0.875em; // 16px * 0.875 = 14px <---- BASE FONT FOR FOOTER BLOCK CONTENT
-    width: 33%;
-    padding-right: 3em;
     float: left;
 
-    &:nth-last-of-type(1) {
-      padding-right: 0;
-    }
-
     h3 {
-      text-transform: uppercase;
+      font-family: $titles;
+      font-size: 1.2em;
     }
 
     @media screen and (max-width: $tablet-1) {
       width: 100%;
+      padding: 0;
     }
   }
 }

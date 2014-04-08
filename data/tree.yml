@@ -1,5 +1,6 @@
 ---
 source/book:
+- index.md
 - chapter-1:
   - section-1:
     - 01-introduction.md

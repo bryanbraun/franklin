@@ -1,5 +1,3 @@
-//= require_tree .
-
 // Application Code.
 var anchorSelector = '.main-content-source h2, ' +
                      '.main-content-source h3, ' +

@@ -1,7 +1,11 @@
+require 'pry-remote'
+require 'pp'
+
 ####################################
 # TRYING AN EXTENSTION. WHOOO HOO!
 ####################################
 require 'yaml'
+require 'titleize'
 
 class SourceTree < Middleman::Extension
   # All the options for this extension
@@ -9,15 +13,21 @@ class SourceTree < Middleman::Extension
   option :data_file, 'data/tree.yml', 'The file we will write our directory tree to.'
   option :ignore_files, '', 'A list of filenames we want to ignore when building our tree.'
   option :ignore_dir, '', 'A list of directory names we want to ignore when building our tree.'
+  option :promote_files, '', 'A list of files you want to push to the front of the tree (if they exist).'
 
   def initialize(app, options_hash={}, &block)
     super
+
+    @existing_promotes = []
+
     tree_hash = scan_directory(options.source_dir, options)
+
+    tree_hash = promote_files(tree_hash, options)
 
     # This global variable is bad, but it's in place until I can find a better way
     # to deal with duplicate file names.
     $duplicate_file_cache = []
-    
+
     # write our directory tree to file as YAML.
     IO.write(options.data_file, YAML::dump(tree_hash)) 
   end
@@ -27,9 +37,15 @@ class SourceTree < Middleman::Extension
     data = {}
     data["#{(name || path)}"] = children = []
     Dir.foreach(path) do |filename|
+
+      # Check to see if we should skip this file.
       next if (filename == '..' || filename == '.')
-      # Check to see if we should ignore this file.
       next if options.ignore_files.include? filename
+      if options.promote_files.include? filename
+        @existing_promotes << filename
+        next
+      end
+
       full_path = File.join(path, filename)
       if File.directory?(full_path)
         # This item is a directory.
@@ -43,14 +59,28 @@ class SourceTree < Middleman::Extension
         children << filename
       end
     end
+
     return data
+  end
+
+  # Method for appending promoted files to the front of our array.
+  def promote_files(tree_hash, options)
+    if @existing_promotes.any?
+      # Identify the subset of promotes that were found, then append them to our tree
+      # in the, order specified in the promote_files option.
+      results = (options.promote_files & @existing_promotes)
+      results.reverse.each do |file|
+        tree_hash[options.source_dir].unshift(file)
+      end
+    end
+    return tree_hash
   end
 
   # Helpers for use in templates
   helpers do
 
     #  Recursive helper for converting source tree data from a ruby hash into HTML
-    #  If this is released publicly, I think it would have to be packaged together. SourceTree + Hash_to_html (tree_data_to_html?) + discover_title
+    #  If this is released publicly, I think it would have to be packaged together. SourceTree + data_to_html
     #  I've got to think about if this solves issues that traversal doesn't.
 
     def data_to_html(value, key=nil)
@@ -84,12 +114,36 @@ class SourceTree < Middleman::Extension
         return html
     end
 
-    #1
-    # Print flat sitemap
-    # def print_sitemap(page = current_page)
-    #  return flat_sitemap
-    # end
-
+    # A utility function for checking duplicate file names when iterating through the tree (see 'Known 
+    # issues' in my notes). This may not work as well if it is being used to find a one-off filename 
+    # because the cache clear assumes that if all filepaths are cached it needs to be refreshed.
+    # For now, I'm not using like that, so while this isn't elegant, it should work without bugs.
+    def get_resource_from_tree(filename)
+      unique_resources = sitemap.resources.find_all{|r| r.source_file.match(/#{filename}/) }
+      if unique_resources.size >= 2
+        # There were multilple files in the tree with the same filename. Lets loop thought them.
+        unique_resources.each_with_index do |resrc, index|
+          if $duplicate_file_cache.include? resrc.path
+            if resrc == unique_resources.last
+              # All files matching the filename are in the cache, which means
+              # The cache is still full from the last iteration through the tree
+              # and needs to be cleared.
+              $duplicate_file_cache.clear
+              # Retest the same file name.
+              return get_resource_from_tree(filename)
+            end
+            next
+          else
+            $duplicate_file_cache.push(resrc.path)
+            return resrc
+          end
+        end
+      elsif unique_resources.size == 1
+        return unique_resources[0];
+      else
+        throw "This filename is not in the source tree."
+      end
+    end
   end
 
 end
@@ -99,8 +153,9 @@ end
 activate :source_tree do |options|
   options.source_dir = 'source/book'
   options.data_file = 'data/tree.yml'
-  options.ignore_files = ['readme.md', 'readme.txt', 'license.md']
+  options.ignore_files = ['readme.md', 'readme.txt', 'license.md', 'CNAME', 'robots.txt', 'humans.txt']
   options.ignore_dir = ['images', 'img', 'image', 'assets']
+  options.promote_files = ['index.md']
 end
 
 ####################################
@@ -230,7 +285,7 @@ end
 
 #2
 # activate :next_previous, tree_data: data['tree']
-activate :next_previous, ignore: ['README.md', 'readme.md', 'license.md']
+activate :next_previous, ignore: ['README.md', 'readme.md', 'license.md', 'CNAME', 'robots.txt', 'humans.txt']
 
 
 ####################################
@@ -299,34 +354,18 @@ helpers do
     end
   end
 
-  # A utility function for checking duplicate file names when iterating through the tree (see 'Known 
-  # issues' in my notes). This may not work as well if it is being used to find a one-off filename 
-  # because the cache clear assumes that if all filepaths are cached it needs to be refreshed.
-  # For now, I'm not using like that, so while this isn't elegant, it should work without bugs.
-  def get_resource_from_tree(filename)
-    unique_resources = sitemap.resources.find_all{|r| r.source_file.match(/#{filename}/) }
-    if unique_resources.size >= 2
-      # There were multilple files in the tree with the same filename. Lets loop thought them.
-      unique_resources.each_with_index do |resrc, index|
-        if $duplicate_file_cache.include? resrc.path
-          if resrc == unique_resources.last
-            # All files matching the filename are in the cache, which means
-            # The cache is still full from the last iteration through the tree
-            # and needs to be cleared.
-            $duplicate_file_cache.clear
-            # Retest the same file name.
-            return get_resource_from_tree(filename)
-          end
-          next
-        else
-          $duplicate_file_cache.push(resrc.path)
-          return resrc
-        end
-      end
-    elsif unique_resources.size == 1
-      return unique_resources[0];
+
+
+  # A helper that wraps link_to, and tests to see if a provided link exists in the sitemap.
+  # Used for page titles.
+  def link_to_if_exists(*args, &block)
+    url = args[0]
+
+    resource = sitemap.find_resource_by_destination_path(url)
+    if resource.nil?
+      block.call
     else
-      throw "This filename is not in the source tree."
+      link_to(*args, &block)
     end
   end
 
@@ -336,10 +375,16 @@ end
 # To be honest, I can't see what this is really doing.
 # set :relative_links, true
 
-set :css_dir, 'stylesheets/glide'
-set :js_dir, 'javascripts'
+# Point to the assets for the site. These paths are theme-specific.
+# @todo: See if a site build will contain assets from other themes (bad)
+ set :layouts_dir, 'layouts/glide'
+# set :layouts_dir, 'layouts/hamilton'
+# set :layouts_dir, 'layouts/epsilon'
+
+set :css_dir, 'stylesheets'
+set :js_dir, 'javascript'
 set :images_dir, 'images'
-set :layouts_dir, 'layouts'
+
 
 # Changing source file, for organizational purposes, and flexibility in defining source locations.
 # This causes some defaults to break, so I'll need to explicitly define other settings
