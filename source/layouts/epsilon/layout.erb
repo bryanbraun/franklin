@@ -49,8 +49,8 @@
             </div>
             <nav class="main-content-nav clearfix" role="navigation">
               <ul>
-                <li><%= previous_link(data['tree']['source/book']) %></li>
-                <li><%= next_link(data['tree']['source/book']) %></li>
+                <li><%= previous_link(data.tree) %></li>
+                <li><%= next_link(data.tree) %></li>
               </ul>
             </nav>
           </section>
@@ -62,7 +62,7 @@
                 <h3>Table of Contents</h3>
                 <nav role="navigation">
                   <ul>
-                    <%= data_to_html(data['tree']['source/book']) %>
+                    <%= tree_to_html(data.tree) %>
                   </ul>
                 </nav>
               </div>

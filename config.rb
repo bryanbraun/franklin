@@ -25,14 +25,21 @@ class SourceTree < Middleman::Extension
     tree_hash = promote_files(tree_hash, options)
 
     # Write our directory tree to file as YAML.
+    # @todo: This step doesn't rebuild during live-reload, which causes errors if you move files
+    #        around during development. It may not be that hard to set up. Low priority though.
     IO.write(options.data_file, YAML::dump(tree_hash))
 
   end
 
   # Method for storing the directory structure in a hash.
+  # @todo: find a more elegant solution than just replacing ".md" with ".html",
+  #        so it works for the other types of template files that middleman supports, and doesn't
+  #        act weird on things like .js or .xml files. Required before open source release.
+  # @todo: the order of the data is defined by the order in the hash, and technically, ruby hashes
+  #        are unordered. This may be more robust if I defined an ordered hash type similar to
+  #        this one in Rails: http://apidock.com/rails/ActiveSupport/OrderedHash
   def scan_directory(path, options, name=nil)
     data = {}
-    data["#{(name || path)}"] = children = []
     Dir.foreach(path) do |filename|
 
       # Check to see if we should skip this file. We skip dotfiles, ignored files, and promoted files
@@ -54,12 +61,12 @@ class SourceTree < Middleman::Extension
         next if options.ignore_dir.include? filename
 
         # Loop through the method again.
-        children << scan_directory(full_path, options, filename)
+        data.store(filename, scan_directory(full_path, options, filename))
       else
         # This item is a file... store the destination path.
         # Transform filepath (/source/directory/file.md => /directory/file.html)
         destination_path = path.sub(/^source/, '') + '/' + filename.chomp(File.extname(filename)) + '.html'
-        children << destination_path
+        data.store(filename, destination_path)
       end
     end
 
@@ -69,8 +76,8 @@ class SourceTree < Middleman::Extension
   # Method for appending promoted files to the front of our source tree.
   # @todo: Currently, options.promote_files only expects a filename, which means that
   #        if multiple files in different directories have the same filename, they
-  #        will both be promoted. Maybe this could be changed to optionally accept
-  #        a full file path, for specific matching in the case of duplicates.
+  #        will both be promoted, and one will not appear (due to the 'no-two-identical
+  #        -indices-in-a-hash' rule).
   def promote_files(tree_hash, options)
 
     if @existing_promotes.any?
@@ -84,13 +91,14 @@ class SourceTree < Middleman::Extension
           pathname_without_ext = File.basename(pathname, ".*")
           # Add matches to our ordered matches array.
           if filename_without_ext == pathname_without_ext
-            ordered_matches << pathname
+            ordered_matches << [filename, pathname]
           end
         end
       end
-      # Promote all files found in both the promotes list and the file structure.
-      ordered_matches.reverse.each do |file|
-        tree_hash[options.source_dir].unshift(file)
+      # Promote all files found in both the promotes list and the file structure. This is an array
+      # of arrays
+      ordered_matches.reverse.each do |match|
+        tree_hash = Hash[match[0], match[1]].merge!(tree_hash)
       end
     end
 
@@ -100,41 +108,112 @@ class SourceTree < Middleman::Extension
   # Helpers for use in templates
   helpers do
 
-    #  A recursive helper for converting source tree data from a ruby hash into HTML
-    def data_to_html(value, key=nil)
-        html = ''
-        if value.is_a?(String)
-          # This is a child item (a file). Get the Sitemap resource for this file.
-          # this_resource = sitemap.resources.find{|r| r.source_file.match(/#{value}/) }
-          this_resource = sitemap.find_resource_by_destination_path(value)
-          # Define string for active states.
-          active = this_resource == current_page ? 'active' : ''
-          title = discover_title(this_resource)
-          html << "<li class='child #{active}'><a href='#{this_resource.url}'>#{title}</a></li>"
-        elsif value.is_a?(Hash)
-          # This is a parent item (a directory)
-          dir_name = key.nil? ? value.keys[0] : key
 
+    #  A recursive helper for converting source tree data from into HTML
+    def tree_to_html(value, key=nil)
+      html = ''
+
+      if value.is_a?(String)
+        # This is a child item (a file). Get the Sitemap resource for this file.
+        this_resource = sitemap.find_resource_by_destination_path(value)
+        # Define string for active states.
+        active = this_resource == current_page ? 'active' : ''
+        title = discover_title(this_resource)
+        html << "<li class='child #{active}'><a href='#{this_resource.url}'>#{title}</a></li>"
+      else
+        # This is a directory.
+        if key.nil?
+          # The first level is the source directory, so it has no key and needs no list item.
+          value.each do |newkey, child|
+            html << tree_to_html(child, newkey)
+          end
+        else
+          # This directory has a key and should be listed in the page hieararcy with HTML.
+          dir_name = key
           html << "<li class='parent'><span class='parent-label'>#{dir_name.gsub(/-/, ' ').gsub(/_/, ' ').titleize}</span>"
           html << '<ul>'
-          value.each do |key, child|
-            html << data_to_html(child, key)
+
+          # Loop through all the directory's contents.
+          value.each do |newkey, child|
+            html << tree_to_html(child, newkey)
           end
           html << '</ul>'
           html << '</li>'
-        elsif value.is_a?(Array)
-          # This is a collection. It could contain files, directories, or both.
-          value.each do |y|
-            html << data_to_html(y)
-          end
         end
+      end
 
-        return html
+      return html
     end
 
-    # Pagination helpers
+    # Helper for building a single level HTML menu out of the source tree.
+    def tree_single_level_to_html(value, key=nil)
+      html = ''
 
-    # Method to flatten the source tree, for pagination purposes.
+      if value.is_a?(String)
+        # This is a child item (a file). Get the Sitemap resource for this file.
+        this_resource = sitemap.find_resource_by_destination_path(value)
+        # Define string for active states.
+        active = this_resource == current_page ? 'active' : ''
+        title = discover_title(this_resource)
+        html << "<li class='child #{active}'><a href='#{this_resource.url}'>#{title}</a></li>"
+      else
+        # This is a directory.
+        if key.nil?
+          # The first level is the source directory, so it has no key and needs no list item.
+          value.each do |newkey, child|
+            html << tree_single_level_to_html(child, newkey)
+          end
+        else
+          # Not populating lower level directories recursively.
+        end
+      end
+
+      return html
+    end
+
+
+    # Pagination helpers
+    # @todo: One potential future feature is previous/next links for paginating on a
+    #        single level instead of a flattened tree. I don't need it but it seems pretty easy.
+    def previous_link(sourcetree)
+      pagelist = flatten_source_tree(sourcetree)
+      position = get_current_position_in_page_list(pagelist)
+      # Skip link generation if position is nil (meaning, the current page isn't in our
+      # pagination pagelist).
+      if position
+        prev_page = pagelist[position - 1]
+        options = {:class => "previous"}
+        unless first_page?(pagelist)
+          link_to("Previous", prev_page, options)
+        end
+      end
+    end
+
+    def next_link(sourcetree)
+      pagelist = flatten_source_tree(sourcetree)
+      position = get_current_position_in_page_list(pagelist)
+      # Skip link generation if position is nil (meaning, the current page isn't in our
+      # pagination pagelist).
+      if position
+        next_page = pagelist[position + 1]
+        options = {:class => "next"}
+        unless last_page?(pagelist)
+          link_to("Next", next_page, options)
+        end
+      end
+    end
+
+    # Helper for use in pagination methods.
+    def first_page?(pagelist)
+      return true if get_current_position_in_page_list(pagelist) == 0
+    end
+
+    # Helper for use in pagination methods.
+    def last_page?(pagelist)
+      return true if pagelist[get_current_position_in_page_list(pagelist)] == pagelist[-1]
+    end
+
+    # Method to flatten the source tree, for use in pagination methods.
     def flatten_source_tree(value, k = [], depth = 0, flat_tree = [])
 
       if value.is_a?(String)
@@ -145,6 +224,8 @@ class SourceTree < Middleman::Extension
         value.each do |key, child|
           flatten_source_tree(child, key, depth + 1, flat_tree)
         end
+      # @todo: I think we can take this part out when arrays aren't in the
+      #        sourcetree anymore.
       elsif value.is_a?(Array)
         # This is a collection. It could contain files, directories, or both.
         value.each_with_index do |item, key|
@@ -155,51 +236,19 @@ class SourceTree < Middleman::Extension
       return flat_tree
     end
 
+    # Helper for use in pagination methods.
     def get_current_position_in_page_list(pagelist)
       pagelist.each_with_index do |page_path, index|
         if page_path == "/" + current_page.path
           return index
         end
       end
-      # If we reach this line, the current page path wasn't in our page list.
-      # To prevent catastrophic failure, we'll return the first position, which is
-      # an incorrect position, and will result with improperly working pagination.
-      # @todo: Throw a more meaningful warning here, and fallback behavior here
-      #        For example, don't display any pagination.
-      return 0
+      # If we reach this line, the current page path wasn't in our page list and we'll
+      # return false so the link generation is skipped.
+      return FALSE
     end
-
-    def previous_link(sourcetree)
-      pagelist = flatten_source_tree(sourcetree)
-      prev_page = pagelist[get_current_position_in_page_list(pagelist) - 1]
-      options = {:class => "previous"}
-      unless first_page?(pagelist)
-
-        link_to("Previous", prev_page, options)
-      end
-    end
-
-    def next_link(sourcetree)
-      pagelist = flatten_source_tree(sourcetree)
-      next_page = pagelist[get_current_position_in_page_list(pagelist) + 1]
-      options = {:class => "next"}
-      unless last_page?(pagelist)
-
-        link_to("Next", next_page, options)
-      end
-    end
-
-    def first_page?(pagelist)
-      return true if get_current_position_in_page_list(pagelist) == 0
-    end
-
-    def last_page?(pagelist)
-      return true if pagelist[get_current_position_in_page_list(pagelist)] == pagelist[-1]
-    end
-
 
   end
-
 end
 
 ::Middleman::Extensions.register(:source_tree, SourceTree)
@@ -207,8 +256,15 @@ end
 activate :source_tree do |options|
   options.source_dir = 'source/book'
   options.data_file = 'data/tree.yml'
-  options.ignore_files = ['readme.md', 'readme.txt', 'license.md', 'CNAME', 'robots.txt', 'humans.txt']
+  options.ignore_files = ['readme.md','readme.txt', 'license.md', 'CNAME', 'robots.txt', 'humans.txt']
+  # @todo: I should exclude the layouts, css, js, etc, by default somehow using the config variables.
+  #        If people try to print those in their menus, it will choke on the "discover title" funciton
+  #        because there's no sitemap resource for those files. I've submitted a question on how to solve
+  #        that here: http://forum.middlemanapp.com/t/access-application-configuration/1038/7
   options.ignore_dir = ['images', 'img', 'image', 'assets']
+  # @todo: You cannot promote two files with the same name, because they can't have the same key
+  #        on the same level in the same hash. I should decide whether I care. One option is to pass
+  #        in full filepaths (or do this with a hash, similar to how I did with the tree).
   options.promote_files = ['index.md']
 end
 

@@ -46,7 +46,7 @@
           <a href="#" class="toc-title" id="toc-title"><h3>Table of Contents</h3></a>
           <nav role="navigation" id="toc-nav" style="display: none;">
             <ul id="toc-list">
-              <%= data_to_html(data['tree']['source/book']) %>
+              <%= tree_to_html(data.tree) %>
             </ul>
           </nav>
         </div>
@@ -56,8 +56,8 @@
           </div>
           <nav class="main-content-nav clearfix" role="navigation">
             <ul class="clearfix">
-              <li><%= previous_link(data['tree']['source/book']) %></li>
-                <li><%= next_link(data['tree']['source/book']) %></li>
+              <li><%= previous_link(data.tree) %></li>
+                <li><%= next_link(data.tree) %></li>
             </ul>
           </nav>
         </section>
