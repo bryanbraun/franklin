@@ -2,7 +2,6 @@
 source/book:
 - /book/index.html
 - chapter-1:
-  - /book/chapter-1/.DS_Store.html
   - section-1:
     - /book/chapter-1/section-1/01-introduction.html
     - /book/chapter-1/section-1/02-styleguide.html

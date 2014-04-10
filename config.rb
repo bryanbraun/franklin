@@ -27,8 +27,6 @@ class SourceTree < Middleman::Extension
     # Write our directory tree to file as YAML.
     IO.write(options.data_file, YAML::dump(tree_hash))
 
-    # Save our tree as a flat list, for next/previous paging.
-    @@page_list = flatten_source_tree(tree_hash)
   end
 
   # Method for storing the directory structure in a hash.
@@ -37,7 +35,9 @@ class SourceTree < Middleman::Extension
     data["#{(name || path)}"] = children = []
     Dir.foreach(path) do |filename|
 
-      # Check to see if we should skip this file.
+      # Check to see if we should skip this file. We skip dotfiles, ignored files, and promoted files
+      # (which are handled later in the process).
+      next if (filename[0] == '.')
       next if (filename == '..' || filename == '.')
       next if options.ignore_files.include? filename
       if options.promote_files.include? filename
@@ -66,28 +66,11 @@ class SourceTree < Middleman::Extension
     return data
   end
 
-  # Method to flatten the source tree, for pagination purposes.
-  def flatten_source_tree(value, k = [], depth = 0, flat_tree = [])
-
-    if value.is_a?(String)
-      # This is a child item (a file).
-      flat_tree.push(value)
-    elsif value.is_a?(Hash)
-      # This is a parent item (a directory).
-      value.each do |key, child|
-        flatten_source_tree(child, key, depth + 1, flat_tree)
-      end
-    elsif value.is_a?(Array)
-      # This is a collection. It could contain files, directories, or both.
-      value.each_with_index do |item, key|
-        flatten_source_tree(item, key, depth + 1, flat_tree)
-      end
-    end
-
-    return flat_tree
-  end
-
   # Method for appending promoted files to the front of our source tree.
+  # @todo: Currently, options.promote_files only expects a filename, which means that
+  #        if multiple files in different directories have the same filename, they
+  #        will both be promoted. Maybe this could be changed to optionally accept
+  #        a full file path, for specific matching in the case of duplicates.
   def promote_files(tree_hash, options)
 
     if @existing_promotes.any?
@@ -150,8 +133,30 @@ class SourceTree < Middleman::Extension
     end
 
     # Pagination helpers
-    def get_current_position_in_page_list
-      @@page_list.each_with_index do |page_path, index|
+
+    # Method to flatten the source tree, for pagination purposes.
+    def flatten_source_tree(value, k = [], depth = 0, flat_tree = [])
+
+      if value.is_a?(String)
+        # This is a child item (a file).
+        flat_tree.push(value)
+      elsif value.is_a?(Hash)
+        # This is a parent item (a directory).
+        value.each do |key, child|
+          flatten_source_tree(child, key, depth + 1, flat_tree)
+        end
+      elsif value.is_a?(Array)
+        # This is a collection. It could contain files, directories, or both.
+        value.each_with_index do |item, key|
+          flatten_source_tree(item, key, depth + 1, flat_tree)
+        end
+      end
+
+      return flat_tree
+    end
+
+    def get_current_position_in_page_list(pagelist)
+      pagelist.each_with_index do |page_path, index|
         if page_path == "/" + current_page.path
           return index
         end
@@ -164,30 +169,32 @@ class SourceTree < Middleman::Extension
       return 0
     end
 
-    def previous_link
-      prev_page = @@page_list[get_current_position_in_page_list() - 1]
+    def previous_link(sourcetree)
+      pagelist = flatten_source_tree(sourcetree)
+      prev_page = pagelist[get_current_position_in_page_list(pagelist) - 1]
       options = {:class => "previous"}
-      unless first_page?
+      unless first_page?(pagelist)
 
         link_to("Previous", prev_page, options)
       end
     end
 
-    def next_link
-      next_page = @@page_list[get_current_position_in_page_list() + 1]
+    def next_link(sourcetree)
+      pagelist = flatten_source_tree(sourcetree)
+      next_page = pagelist[get_current_position_in_page_list(pagelist) + 1]
       options = {:class => "next"}
-      unless last_page?
+      unless last_page?(pagelist)
 
         link_to("Next", next_page, options)
       end
     end
 
-    def first_page?
-      return true if get_current_position_in_page_list() == 0
+    def first_page?(pagelist)
+      return true if get_current_position_in_page_list(pagelist) == 0
     end
 
-    def last_page?
-      return true if @@page_list[get_current_position_in_page_list()] == @@page_list[-1]
+    def last_page?(pagelist)
+      return true if pagelist[get_current_position_in_page_list(pagelist)] == pagelist[-1]
     end
 
 
@@ -264,9 +271,9 @@ helpers do
   # or fallback to a filename-based-title
 
   def discover_title(page = current_page)
-    if frontmatter_title = page.data.title
-      return frontmatter_title
-    elsif match = page.render({layout: false}).match(/<h.+>(.*?)<\/h1>/)
+    if page.data.title
+      return page.data.title # Frontmatter title
+    elsif match = page.render({:layout => false}).match(/<h.+>(.*?)<\/h1>/)
       return match[1]
     else
       return page.url.split(/\//).last.titleize
