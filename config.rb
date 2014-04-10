@@ -24,12 +24,11 @@ class SourceTree < Middleman::Extension
 
     tree_hash = promote_files(tree_hash, options)
 
-    # This global variable is bad, but it's in place until I can find a better way
-    # to deal with duplicate file names.
-    $duplicate_file_cache = []
+    # Write our directory tree to file as YAML.
+    IO.write(options.data_file, YAML::dump(tree_hash))
 
-    # write our directory tree to file as YAML.
-    IO.write(options.data_file, YAML::dump(tree_hash)) 
+    # Save our tree as a flat list, for next/previous paging.
+    @@page_list = flatten_source_tree(tree_hash)
   end
 
   # Method for storing the directory structure in a hash.
@@ -42,7 +41,9 @@ class SourceTree < Middleman::Extension
       next if (filename == '..' || filename == '.')
       next if options.ignore_files.include? filename
       if options.promote_files.include? filename
-        @existing_promotes << filename
+        # Transform filepath (/source/directory/file.md => /directory/file.html)
+        destination_path = path.sub(/^source/, '') + '/' + filename.chomp(File.extname(filename)) + '.html'
+        @existing_promotes << destination_path
         next
       end
 
@@ -55,40 +56,74 @@ class SourceTree < Middleman::Extension
         # Loop through the method again.
         children << scan_directory(full_path, options, filename)
       else
-        # This item is a file... store the filename.
-        children << filename
+        # This item is a file... store the destination path.
+        # Transform filepath (/source/directory/file.md => /directory/file.html)
+        destination_path = path.sub(/^source/, '') + '/' + filename.chomp(File.extname(filename)) + '.html'
+        children << destination_path
       end
     end
 
     return data
   end
 
-  # Method for appending promoted files to the front of our array.
+  # Method to flatten the source tree, for pagination purposes.
+  def flatten_source_tree(value, k = [], depth = 0, flat_tree = [])
+
+    if value.is_a?(String)
+      # This is a child item (a file).
+      flat_tree.push(value)
+    elsif value.is_a?(Hash)
+      # This is a parent item (a directory).
+      value.each do |key, child|
+        flatten_source_tree(child, key, depth + 1, flat_tree)
+      end
+    elsif value.is_a?(Array)
+      # This is a collection. It could contain files, directories, or both.
+      value.each_with_index do |item, key|
+        flatten_source_tree(item, key, depth + 1, flat_tree)
+      end
+    end
+
+    return flat_tree
+  end
+
+  # Method for appending promoted files to the front of our source tree.
   def promote_files(tree_hash, options)
+
     if @existing_promotes.any?
-      # Identify the subset of promotes that were found, then append them to our tree
-      # in the, order specified in the promote_files option.
-      results = (options.promote_files & @existing_promotes)
-      results.reverse.each do |file|
+      ordered_matches = []
+      options.promote_files.each do |filename|
+        # Get filename without extension (index.md => index)
+        filename_without_ext = filename.chomp(File.extname(filename))
+        # Test against each existing_promote, and store matches
+        @existing_promotes.each do |pathname|
+          # Get another filename without extension from the pathname (/book/index.html => index)
+          pathname_without_ext = File.basename(pathname, ".*")
+          # Add matches to our ordered matches array.
+          if filename_without_ext == pathname_without_ext
+            ordered_matches << pathname
+          end
+        end
+      end
+      # Promote all files found in both the promotes list and the file structure.
+      ordered_matches.reverse.each do |file|
         tree_hash[options.source_dir].unshift(file)
       end
     end
+
     return tree_hash
   end
 
   # Helpers for use in templates
   helpers do
 
-    #  Recursive helper for converting source tree data from a ruby hash into HTML
-    #  If this is released publicly, I think it would have to be packaged together. SourceTree + data_to_html
-    #  I've got to think about if this solves issues that traversal doesn't.
-
+    #  A recursive helper for converting source tree data from a ruby hash into HTML
     def data_to_html(value, key=nil)
         html = ''
         if value.is_a?(String)
           # This is a child item (a file). Get the Sitemap resource for this file.
           # this_resource = sitemap.resources.find{|r| r.source_file.match(/#{value}/) }
-          this_resource = get_resource_from_tree(value)
+          this_resource = sitemap.find_resource_by_destination_path(value)
           # Define string for active states.
           active = this_resource == current_page ? 'active' : ''
           title = discover_title(this_resource)
@@ -114,36 +149,48 @@ class SourceTree < Middleman::Extension
         return html
     end
 
-    # A utility function for checking duplicate file names when iterating through the tree (see 'Known 
-    # issues' in my notes). This may not work as well if it is being used to find a one-off filename 
-    # because the cache clear assumes that if all filepaths are cached it needs to be refreshed.
-    # For now, I'm not using like that, so while this isn't elegant, it should work without bugs.
-    def get_resource_from_tree(filename)
-      unique_resources = sitemap.resources.find_all{|r| r.source_file.match(/#{filename}/) }
-      if unique_resources.size >= 2
-        # There were multilple files in the tree with the same filename. Lets loop thought them.
-        unique_resources.each_with_index do |resrc, index|
-          if $duplicate_file_cache.include? resrc.path
-            if resrc == unique_resources.last
-              # All files matching the filename are in the cache, which means
-              # The cache is still full from the last iteration through the tree
-              # and needs to be cleared.
-              $duplicate_file_cache.clear
-              # Retest the same file name.
-              return get_resource_from_tree(filename)
-            end
-            next
-          else
-            $duplicate_file_cache.push(resrc.path)
-            return resrc
-          end
+    # Pagination helpers
+    def get_current_position_in_page_list
+      @@page_list.each_with_index do |page_path, index|
+        if page_path == "/" + current_page.path
+          return index
         end
-      elsif unique_resources.size == 1
-        return unique_resources[0];
-      else
-        throw "This filename is not in the source tree."
+      end
+      # If we reach this line, the current page path wasn't in our page list.
+      # To prevent catastrophic failure, we'll return the first position, which is
+      # an incorrect position, and will result with improperly working pagination.
+      # @todo: Throw a more meaningful warning here, and fallback behavior here
+      #        For example, don't display any pagination.
+      return 0
+    end
+
+    def previous_link
+      prev_page = @@page_list[get_current_position_in_page_list() - 1]
+      options = {:class => "previous"}
+      unless first_page?
+
+        link_to("Previous", prev_page, options)
       end
     end
+
+    def next_link
+      next_page = @@page_list[get_current_position_in_page_list() + 1]
+      options = {:class => "next"}
+      unless last_page?
+
+        link_to("Next", next_page, options)
+      end
+    end
+
+    def first_page?
+      return true if get_current_position_in_page_list() == 0
+    end
+
+    def last_page?
+      return true if @@page_list[get_current_position_in_page_list()] == @@page_list[-1]
+    end
+
+
   end
 
 end
@@ -163,134 +210,6 @@ end
 #######################################
 
 
-
-####################################
-# TRYING AN EXTENSTION. WHOOO HOO!
-####################################
-
-class NextPrevious < Middleman::Extension
-  #2
-  #option :tree_data, {}, 'A reference to a yaml file in /data containing structured directory-tree content.'
-  option :ignore, [], 'A list of filenames to ignore when creating a sitewide pagination pagelist.'
-
-  def initialize(app, options_hash={}, &block)
-    super
-    @@page_list = []
-
-    #2 
-    # @@page_list = flatten_source_tree(options.tree_data)
-  end
-
-  #1 Trying to pull data out of sitemap. It's working but I'm having trouble getting it into helpers.
-  #
-  def manipulate_resource_list(resources)
-    resources.each do |resource|
-      if resource.path.include? ".html"
-        source_file_array = resource.source_file.split('/')
-        next if options[:ignore].include? source_file_array[-1]
-        @@page_list.push(resource.path)
-        puts @@page_list
-      end
-    end
-  end
-
-
-#2 Working methods for the "flatten the sourcetree" Technique. Temporarily commented to try the sitemap technique
-# Because the duplicate file prevention issue complicates things when using this method.
-=begin
-  def manipulate_resource_list(resources)
-
-    # Replace filenames in the page_list variable with full paths in our page_list, for easier referencing.
-    @@page_list.each_with_index do |filename, index|
-    puts @@page_list[index]
-    this_resource = resources.find{|r| r.source_file.match(/#{filename}/) }
-    # This duplicate prevention tool isn't working yet because it cannot call a helper method from here.
-    #this_resource = get_resource_from_tree(filename) 
-      unless this_resource.nil?
-        @@page_list[index] = this_resource.path
-        puts @@page_list[index]
-      end
-    end
-
-    return resources
-  end
-
-  # An idea for flattening the source tree
-  def flatten_source_tree(value, k = [], depth = 0, flat_tree = [])
-
-      if value.is_a?(String)
-        # This is a child item (a file).
-        flat_tree.push(value)
-      elsif value.is_a?(Hash)
-        # This is a parent item (a directory).
-        value.each do |key, child|
-          flatten_source_tree(child, key, depth + 1, flat_tree)
-        end
-
-      elsif value.is_a?(Array)
-        # This is a collection. It could contain files, directories, or both.
-        value.each_with_index do |item, key|
-          flatten_source_tree(item, key, depth + 1, flat_tree)
-        end
-      end
-
-      return flat_tree
-  end
-=end
-
-  # Helpers for use in templates
-  helpers do
-
-    def test_helper
-      puts defined?(@@page_list) ? @@page_list : "help: pagelist false" #=> false
-    end
-
-    def get_current_position_in_page_list
-      @@page_list.each_with_index do |page_path, index|
-        if page_path == current_page.path
-          return index
-        end
-      end
-    end
-
-    def previous_link
-      prev_page = @@page_list[get_current_position_in_page_list() - 1]
-      options = {:class => "previous"}
-      unless first_page?
-        link_to("Previous", "/" + prev_page, options)
-      end
-    end
-
-    def next_link
-      next_page = @@page_list[get_current_position_in_page_list() + 1]
-      options = {:class => "next"}
-      unless last_page?
-        link_to("Next", "/" + next_page, options)
-      end
-    end
-
-    def first_page?
-      return true if get_current_position_in_page_list() == 0
-    end
-
-    def last_page?
-      return true if @@page_list[get_current_position_in_page_list()] == @@page_list[-1]
-    end
-
-  end
-
-end
-
-::Middleman::Extensions.register(:next_previous, NextPrevious)
-
-#2
-# activate :next_previous, tree_data: data['tree']
-activate :next_previous, ignore: ['README.md', 'readme.md', 'license.md', 'CNAME', 'robots.txt', 'humans.txt']
-
-
-####################################
-# END OF EXTENSION. WHOOO HOO!
-#######################################
 
 ###
 # Compass
@@ -414,6 +333,4 @@ configure :build do
   # Or use a different image path
   # set :http_prefix, "/Content/images/"
 end
-
-
 
