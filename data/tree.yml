@@ -1,12 +1,19 @@
 ---
 index.md: /book/index.html
-chapter-1:
-  section-1:
-    01-introduction.md: /book/chapter-1/section-1/01-introduction.html
-    02-styleguide.md: /book/chapter-1/section-1/02-styleguide.html
-  section-2:
-    01-a-new-section.md: /book/chapter-1/section-2/01-a-new-section.html
-    02-another-step.md: /book/chapter-1/section-2/02-another-step.html
-chapter-2:
-  01-moving-along.md: /book/chapter-2/01-moving-along.html
-  02-wrapping-up.md: /book/chapter-2/02-wrapping-up.html
+chapter-01:
+  1_1-introduction.markdown: /book/chapter-01/1_1-introduction.html
+  1_2-setup.md: /book/chapter-01/1_2-setup.html
+  exercises:
+    exercise-1.md: /book/chapter-01/exercises/exercise-1.html
+    exercise-2.md: /book/chapter-01/exercises/exercise-2.html
+  test.html.md: /book/chapter-01/test.html
+  test.md.erb: /book/chapter-01/test.html
+  test.test.html.md: /book/chapter-01/test.test.html
+chapter-02:
+  2_1-conditions.md: /book/chapter-02/2_1-conditions.html
+  2_2-loops.md: /book/chapter-02/2_2-loops.html
+  2_3-libraries.md: /book/chapter-02/2_3-libraries.html
+chapter-03:
+  3_1-objects.md: /book/chapter-03/3_1-objects.html
+  3_2-classes.md: /book/chapter-03/3_2-classes.html
+styleguide.md: /book/styleguide.html
