@@ -1,19 +1,19 @@
 ---
-index.md: /book/index.html
-chapter-01:
-  1_1-introduction.markdown: /book/chapter-01/1_1-introduction.html
-  1_2-setup.md: /book/chapter-01/1_2-setup.html
-  exercises:
-    exercise-1.md: /book/chapter-01/exercises/exercise-1.html
-    exercise-2.md: /book/chapter-01/exercises/exercise-2.html
-  test.html.md: /book/chapter-01/test.html
-  test.md.erb: /book/chapter-01/test.html
-  test.test.html.md: /book/chapter-01/test.test.html
-chapter-02:
-  2_1-conditions.md: /book/chapter-02/2_1-conditions.html
-  2_2-loops.md: /book/chapter-02/2_2-loops.html
-  2_3-libraries.md: /book/chapter-02/2_3-libraries.html
-chapter-03:
-  3_1-objects.md: /book/chapter-03/3_1-objects.html
-  3_2-classes.md: /book/chapter-03/3_2-classes.html
-styleguide.md: /book/styleguide.html
+index.md: /book/index.md
+chapter-1:
+  intro-print-design.md: /book/chapter-1/intro-print-design.md
+  section-1.1:
+    1-early-writings.md: /book/chapter-1/section-1.1/1-early-writings.md
+    2-calligraphy.md: /book/chapter-1/section-1.1/2-calligraphy.md
+  section-1.2:
+    1-book-design.md: /book/chapter-1/section-1.2/1-book-design.md
+    2-binding.md: /book/chapter-1/section-1.2/2-binding.md
+chapter-2:
+  intro-web-design.md: /book/chapter-2/intro-web-design.md
+  section-2.1:
+    1-html-and-css.md: /book/chapter-2/section-2.1/1-html-and-css.md
+    2-webpage-layout.md: /book/chapter-2/section-2.1/2-webpage-layout.md
+  section-2.2:
+    1-webfonts.md: /book/chapter-2/section-2.2/1-webfonts.md
+    2-responsive-design.md: /book/chapter-2/section-2.2/2-responsive-design.md
+styleguide.md: /book/styleguide.md

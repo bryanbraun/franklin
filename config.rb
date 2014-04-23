@@ -1,21 +1,20 @@
 require 'pry-remote'
 require 'pp'
 require 'middleman-navtree'
+require 'middleman-linkswap'
 
 activate :navtree do |options|
   options.source_dir = 'source/book'
   options.data_file = 'data/tree.yml'
-  options.ignore_files = ['readme.md','readme.txt', 'license.md', 'CNAME', 'robots.txt', 'humans.txt']
-  # @todo: I should exclude the layouts, css, js, etc, by default somehow using the config variables.
-  #        If people try to print those in their menus, it will choke on the "discover title" funciton
-  #        because there's no sitemap resource for those files. I've submitted a question on how to solve
-  #        that here: http://forum.middlemanapp.com/t/access-application-configuration/1038/7
-  options.ignore_dir = ['images', 'img', 'image', 'assets']
+  options.ignore_files = ['readme.md','readme.txt', 'license.md', 'CNAME', 'robots.txt', 'humans.txt', '404.html']
+  # All the config directories are automatically added. These ones are guesses at
+  # what book authors might name folders containing assets.
+  options.ignore_dir = ['img', 'image', 'pictures', 'pics']
   # @todo: You cannot promote two files with the same name, because they can't have the same key
   #        on the same level in the same hash. I should decide whether I care. One option is to pass
   #        in full filepaths (or do this with a hash, similar to how I did with the tree).
   options.promote_files = ['index.md']
-  options.ext_whitelist = ['.html']
+  options.ext_whitelist = ['.md', '.markdown', '.mkd']
 end
 
 ###
@@ -59,7 +58,7 @@ page "/sitemap.xml", :layout => false
 # activate :automatic_image_sizes
 
 # Reload the browser automatically whenever files change
-activate :livereload
+# activate :livereload
 
 # Methods defined in the helpers block are available in templates
 helpers do
@@ -85,12 +84,12 @@ helpers do
   end
 
 
-  # A helper that wraps link_to, and tests to see if a provided link exists in the sitemap.
-  # Used for page titles.
+  # A helper that wraps link_to, and tests to see if a provided link exists in
+  # the sitemap. Used for page titles.
   def link_to_if_exists(*args, &block)
     url = args[0]
 
-    resource = sitemap.find_resource_by_destination_path(url)
+    resource = sitemap.find_resource_by_path(url)
     if resource.nil?
       block.call
     else
@@ -102,7 +101,7 @@ end
 
 # An attempt to fix links to images from content, and links to assets outside the source folder.
 # To be honest, I can't see what this is really doing.
-# set :relative_links, true
+ set :relative_links, true
 
 # Point to the assets for the site. These paths are theme-specific.
 # @todo: See if a site build will contain assets from other themes (bad)
@@ -120,11 +119,16 @@ set :images_dir, 'images'
 set :source, "source"
 #set :source, "source/book"
 
-# set :index_file, 'book/index.html' # <---- This setting seems to throw off navigation tree traversal when on.
-
 # Pretty URLs. For more info, see http://middlemanapp.com/pretty-urls/
-# activate :directory_indexes # <--- Need to add support for this to NavTree extension.
-# set :trailing_slash, 'false'
+activate :directory_indexes
+set :trailing_slash, 'false'
+
+# Define settings for syntax highlighting. We want to mimic Github Flavored
+# markdown, so we're using Redcarpet, with some specific settings.
+# See https://github.com/blog/832-rolling-out-the-redcarpet
+activate :syntax
+set :markdown_engine, :redcarpet
+set :markdown, :fenced_code_blocks => true, :smartypants => true
 
 # Build-specific configuration
 configure :build do

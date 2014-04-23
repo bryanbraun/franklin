@@ -13,6 +13,7 @@
 
     <!-- Styles and fonts -->
     <%= stylesheet_link_tag "all/all" %>
+    <%= stylesheet_link_tag "all/syntax" %>
     <%= stylesheet_link_tag "epsilon/epsilon" %>
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700|Noticia+Text:400,400italic,700,700italic&subset=latin,latin-ext,vietnamese' rel='stylesheet' type='text/css'>
 
@@ -23,9 +24,7 @@
 
   <body class="<%= page_classes %> epsilon">
     <div class="page-wrapper">
-      <!--[if lt IE 7]>
-          <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-      <![endif]-->
+
       <a id="menu-toggle" class="menu-toggle" href="#sidr"><span class="bitcon-list"></span><span class="menu-toggle-text">Toggle Menu</span></a>
       <header class="page-header" role="banner">
         <%# @todo: only link to the index page if there is an index.md file %>
@@ -40,6 +39,10 @@
       </header>
 
         <div class="content-wrapper clearfix">
+
+          <!--[if lt IE 7]>
+              <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+          <![endif]-->
 
           <section class="main-content" role="main">
             <div class="main-content-source">
