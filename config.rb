@@ -3,6 +3,7 @@ require 'pp'
 require 'middleman-navtree'
 require 'middleman-linkswap'
 
+activate :linkswap
 activate :navtree do |options|
   options.source_dir = 'source/book'
   options.data_file = 'data/tree.yml'
@@ -120,7 +121,7 @@ set :source, "source"
 #set :source, "source/book"
 
 # Pretty URLs. For more info, see http://middlemanapp.com/pretty-urls/
-activate :directory_indexes
+# activate :directory_indexes
 set :trailing_slash, 'false'
 
 # Define settings for syntax highlighting. We want to mimic Github Flavored

@@ -28,7 +28,7 @@
       <a id="menu-toggle" class="menu-toggle" href="#sidr"><span class="bitcon-list"></span><span class="menu-toggle-text">Toggle Menu</span></a>
       <header class="page-header" role="banner">
         <%# @todo: only link to the index page if there is an index.md file %>
-        <% link_to '/book/index.html', :class => "invisilink" do %>
+        <% link_to_if_exists '/book/index.html', :class => "invisilink" do %>
           <% if ['index.html', 'book/index.html'].include? current_page.path %>
             <h1 class="book-title"><%= data.book.title %></h1>
           <% else %>
@@ -76,9 +76,7 @@
               <div class="block downloads">
                 <h3>Downloads</h3>
                 <p>Download this book in 
-                  <% data.book.formats.each do |f| %>
-                    <a href="#"><%= f %></a>, 
-                  <% end %>
+                    <a href="#">PDF</a>, <a href="#">mobi</a>, and <a href="#">epub</a>
                   form for free.
                 </p>
               </div>
@@ -86,9 +84,7 @@
               <div class="block translations">
                 <h3>Book translations</h3>
                 <p>This book is translated into 
-                  <% data.book.languages.each do |l| %>
-                    <a href="#"><%= l %></a>, 
-                  <% end %>
+                  <a href="#">Spanish</a>
                   and <a href="#">English</a>.
                   You can help with more translations <a href="<%= data.book.github_url %>">on Github</a>.
                 </p>
@@ -96,7 +92,7 @@
 
               <div class="block license">
                 <h3>License</h3>
-                <p>This book is licensed under the <a href="<%= data.book.license_url %>"><%= data.book.license %></a> license.</p>
+                <p>This book is licensed under the <a href="<%= data.book.license_url %>"><%= data.book.license_name %></a> license.</p>
               </div>
 
             </div><!-- end aside-wrapper -->

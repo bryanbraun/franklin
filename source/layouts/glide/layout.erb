@@ -82,10 +82,8 @@
 
           <div class="block downloads">
             <h3>Downloads</h3>
-            <p>Download this book in 
-              <% data.book.formats.each do |f| %>
-                <a href="#"><%= f %></a>, 
-              <% end %>
+            <p>Download this book in
+                <a href="#">PDF</a>, <a href="#">mobi</a>, and <a href="#">epub</a>
               form for free.
             </p>
           </div>
@@ -93,9 +91,7 @@
           <div class="block translations">
             <h3>Book translations</h3>
             <p>This book is translated into 
-              <% data.book.languages.each do |l| %>
-                <a href="#"><%= l %></a>, 
-              <% end %>
+              <a href="#">Spanish</a>
               and <a href="#">English</a>.
               You can help with more translations <a href="<%= data.book.github_url %>">on Github</a>.
             </p>
@@ -103,7 +99,7 @@
 
           <div class="block license">
             <h3>License</h3>
-            <p>This book is licensed under the <a href="<%= data.book.license_url %>"><%= data.book.license %></a> license.</p>
+            <p>This book is licensed under the <a href="<%= data.book.license_url %>"><%= data.book.license_name %></a> license.</p>
           </div>
 
           <small class="small-text">Copyright 2013</small>

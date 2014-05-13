@@ -2,6 +2,34 @@
 
 This is the front page of your book. It can be reached by clicking the first link in the table of contents or by clicking the title of the book (on any page). This file must be named `index.md`.
 
+Now we will link to a lot of different stuff, to test our linkswap.
+
+1. Standard relative MD Link: [Styleguide](styleguide.md)
+2. Root-relative MD Link: [Styleguide](/book/styleguide.md)
+3. Deep relative MD link: [Early Writings](chapter-1/section-1.1/1-early-writings.md)
+4. Standard HTML Link: [Styleguide](styleguide.html)
+5. Root-relative HTML Link: [Styleguide](/book/styleguide.html)
+6. Fake decoy link 1: [Styleguide](test.mdstyleguide.md)
+7. Fake decoy link 2: [Styleguide](cmd.md)
+8. Fake decoy link 3: [Styleguide](../md/test.md)
+9. Fake decoy link 4: [Styleguide](../md/test.md)
+10. Fake decoy link 5: blah blah styleguide.md blah. Also blah `styleguide.md` blah blah.
+11. Link in code snippet:
+
+```
+# Snippet containing styleguide.md references
+if filename == 'styleguide.md'
+  path << "styleguide.md"
+end
+```
+
+```ruby
+# Snippet containing styleguide.md references
+if filename == 'styleguide.md'
+  path << "styleguide.md"
+end
+```
+
 Foo. foo. foo. foo.
 Bar. bar. bar. bar.
 

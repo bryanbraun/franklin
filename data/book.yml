@@ -1,19 +1,16 @@
-# Book metadata
-title: My Book
-author: Bryan Braun
-license: Creative Commons Attribution Non-commercial No Derivative Works 3.0
-license_url: http://creativecommons.org/licenses/by-nc-sa/3.0/us/
-github_url: http://github.com/bryanbraun/my-book
-theme: glide
-
-# Book transations
-languages:
-  - Spanish
-  - Italian
-  - French
-
-# Book formats
-formats:
-  - PDF
-  - ePub
-  - mobi
+---
+id: 5027
+title: Punching Bag
+author: Me
+license: cc-by-sa
+gh_full_name: bryanbraun/punching-bag
+theme: Glide
+github_pages_url: http://bryanbraun.github.io/punching-bag
+license_name: Attribution-ShareAlike
+license_url: https://creativecommons.org/licenses/by-sa/4.0
+domain: 
+github_url: https://github.com/bryanbraun/punching-bag
+created_at: '2014-05-10T20:47:33Z'
+updated_at: '2014-05-10T20:47:33Z'
+user_id: 5
+github_id: 19648279
