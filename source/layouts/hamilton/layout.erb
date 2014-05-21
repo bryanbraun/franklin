@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><%= discover_title %></title>
+    <title><%= discover_page_title %></title>
 
     <!-- Styles and fonts -->
     <%= stylesheet_link_tag "all/all" %>
@@ -30,8 +30,8 @@
       <![endif]-->
 
       <header class="page-header" role="banner">
-        <% link_to_if_exists '/book/index.html', :class => "invisilink" do %>
-          <% if ['index.html', 'book/index.html'].include? current_page.path %>
+        <% link_to_if_exists '/index.html', :class => "invisilink" do %>
+          <% if ['index.html'].include? current_page.path %>
             <h1 class="book-title"><%= data.book.title %></h1>
           <% else %>
             <span class="book-title"><%= data.book.title %></span>
@@ -66,7 +66,7 @@
       <footer class="page-footer">
 
         <div class="footer-wrapper clearfix" role="complementary">
-
+          <!--
           <div class="block-pair clearfix">
             <div class="block downloads">
               <h3>Downloads</h3>
@@ -78,14 +78,14 @@
 
             <div class="block translations">
               <h3>Book translations</h3>
-              <p>This book is translated into 
+              <p>This book is translated into
                 <a href="#">Spanish</a>
                 and <a href="#">English</a>.
                 You can help with more translations <a href="<%= data.book.github_url %>">on Github</a>.
               </p>
             </div>
           </div>
-
+          -->
           <div class="block-pair clearfix">
             <div class="block license">
               <h3>License</h3>

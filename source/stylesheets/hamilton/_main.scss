@@ -361,8 +361,10 @@ pre > code {
 
 }
 .block-pair {
-  float: left;
-  width: 50%;
+  // float: left; // Temporarily removed because we only have 2 blocks.
+  // width: 50%; // Temporarily removed because we only have 2 blocks.
+  width: 66%; // Temporarily added because we only have 2 blocks.
+  margin: 0 auto; // Temporarily added because we only have 2 blocks.
 
   @media screen and (max-width: $tablet-1) {
     width: 100%;

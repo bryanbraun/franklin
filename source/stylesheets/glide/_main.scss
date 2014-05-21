@@ -219,26 +219,13 @@ a.anchor-link:focus {
   padding: 2em 0;
 }
 .footer-wrapper {
-  max-width: $inside-width;
+  max-width: $two-block;
   margin: 0 auto;
   padding: 0 1em;
 
-  .license {
-    width: 30%;
-    padding-right: 0;
-  }
-
-  .downloads,
-  .translations {
-    width: 35%;
-    padding-right: 3em;
-
-    @media screen and (max-width: $tablet-2) {
-      padding-right: 2em;
-    }
-  }
-
   .block {
+    width: 49%;
+    padding: 0 0.8em;
     font-size: 0.875em; // 16px * 0.875 = 14px <---- BASE FONT FOR FOOTER BLOCK CONTENT
     float: left;
 

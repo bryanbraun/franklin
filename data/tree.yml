@@ -1,19 +1,13 @@
 ---
-index.md: /book/index.md
+index.md: /index.md
 chapter-1:
-  intro-print-design.md: /book/chapter-1/intro-print-design.md
-  section-1.1:
-    1-early-writings.md: /book/chapter-1/section-1.1/1-early-writings.md
-    2-calligraphy.md: /book/chapter-1/section-1.1/2-calligraphy.md
-  section-1.2:
-    1-book-design.md: /book/chapter-1/section-1.2/1-book-design.md
-    2-binding.md: /book/chapter-1/section-1.2/2-binding.md
+  1_1-introduction.md: /chapter-1/1_1-introduction.md
+  1_2-setup.md: /chapter-1/1_2-setup.md
 chapter-2:
-  intro-web-design.md: /book/chapter-2/intro-web-design.md
-  section-2.1:
-    1-html-and-css.md: /book/chapter-2/section-2.1/1-html-and-css.md
-    2-webpage-layout.md: /book/chapter-2/section-2.1/2-webpage-layout.md
-  section-2.2:
-    1-webfonts.md: /book/chapter-2/section-2.2/1-webfonts.md
-    2-responsive-design.md: /book/chapter-2/section-2.2/2-responsive-design.md
-styleguide.md: /book/styleguide.md
+  2_1-conditions.md: /chapter-2/2_1-conditions.md
+  2_2-loops.md: /chapter-2/2_2-loops.md
+  2_3-libraries.md: /chapter-2/2_3-libraries.md
+chapter-3:
+  3_1-objects.md: /chapter-3/3_1-objects.md
+  3_2-classes.md: /chapter-3/3_2-classes.md
+styleguide.md: /styleguide.md
