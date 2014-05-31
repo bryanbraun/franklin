@@ -12,14 +12,13 @@
     <title><%= discover_page_title %></title>
 
     <!-- Styles and fonts -->
-    <%= stylesheet_link_tag "all/all" %>
-    <%= stylesheet_link_tag "all/syntax" %>
-    <%= stylesheet_link_tag "epsilon/epsilon" %>
+    <%= stylesheet_link_tag "themes/epsilon/stylesheets/epsilon" %>
+    <%= stylesheet_link_tag "themes/epsilon/stylesheets/syntax" %>
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700|Noticia+Text:400,400italic,700,700italic&subset=latin,latin-ext,vietnamese' rel='stylesheet' type='text/css'>
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-    <%= javascript_include_tag  "all/modernizr" %>
+    <%= javascript_include_tag  "themes/epsilon/javascripts/modernizr" %>
   </head>
 
   <body class="<%= page_classes %> epsilon">
@@ -81,6 +80,7 @@
                   form for free.
                 </p>
               </div>
+              -->
 
               <div class="block translations">
                 <h3>Book translations</h3>
@@ -90,7 +90,6 @@
                   You can help with more translations <a href="<%= data.book.github_url %>">on Github</a>.
                 </p>
               </div>
-              -->
 
               <div class="block license">
                 <h3>License</h3>
@@ -112,9 +111,8 @@
 
     <!-- include scripts just before the close of the body tag -->
     <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-    <%= javascript_include_tag "epsilon/epsilon" %>
-    <%= javascript_include_tag "epsilon/jquery.sidr.min" %>
-    <%= javascript_include_tag "all/anchor.min" %>
-    <%= javascript_include_tag "all/all" %>
+    <%= javascript_include_tag "themes/epsilon/javascripts/jquery.sidr.min" %>
+    <%= javascript_include_tag "themes/epsilon/javascripts/anchor.min" %>
+    <%= javascript_include_tag "themes/epsilon/javascripts/epsilon" %>
   </body>
 </html>

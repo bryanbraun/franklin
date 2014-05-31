@@ -4,14 +4,9 @@
 <% sitemap.resources.each do |page| %>
   <% if page.path.include? ".html" %>
     <url>
-      <loc>http://your-url.bitbooks.cc<%= page.url %></loc>
+      <loc><%= data.book.github_pages_url + page.url %></loc>
       <priority>0.5</priority>
     </url>
   <% end %>
 <% end %>
 </urlset>
-<%# <!-- Leaving this in as an example of how to query the list of resources --> %>
-<%# <!-- You can use the .gsub method to substitue part of the path with a given string --> %>
-<%# pages = sitemap.resources.find_all{|p| p.source_file.match(/\.html/) } %>
-<%# pages.each do |p| %>
-<%# end %>

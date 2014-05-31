@@ -12,14 +12,14 @@
     <title><%= discover_page_title %></title>
 
     <!-- Styles and fonts -->
-    <%= stylesheet_link_tag "all/all" %>
-    <%= stylesheet_link_tag "all/syntax" %>
-    <%= stylesheet_link_tag "hamilton/hamilton" %>
+    <%= stylesheet_link_tag "themes/hamilton/stylesheets/hamilton" %>
+    <%= stylesheet_link_tag "themes/hamilton/stylesheets/syntax" %>
+
     <link href='http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700italic,700' rel='stylesheet' type='text/css'>
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-    <%= javascript_include_tag  "all/modernizr" %>
+    <%= javascript_include_tag  "themes/hamilton/javascripts/modernizr" %>
   </head>
 
   <body class="<%= page_classes %> hamilton">
@@ -107,8 +107,7 @@
     </div><!-- end page-wrapper -->
 
     <!-- include scripts just before the close of the body tag -->
-    <%= javascript_include_tag "all/anchor.min" %>
-    <%= javascript_include_tag "all/all" %>
-    <%= javascript_include_tag "hamilton/hamilton" %>
+    <%= javascript_include_tag "themes/hamilton/javascripts/anchor.min" %>
+    <%= javascript_include_tag "themes/hamilton/javascripts/hamilton" %>
   </body>
 </html>
