@@ -1,16 +1,8 @@
 ---
-id: 5027
-title: Punching Bag
-author: Me
-license: cc-by-sa
-gh_full_name: bryanbraun/punching-bag
-theme: hamilton
-github_pages_url: http://bryanbraun.github.io/punching-bag
+title: Example Book
+author: You
+github_url: https://github.com/yourname/example-book
+github_pages_url: http://yourname.github.io/example-book
 license_name: Attribution-ShareAlike
 license_url: https://creativecommons.org/licenses/by-sa/4.0
-domain: 
-github_url: https://github.com/bryanbraun/punching-bag
-created_at: '2014-05-10T20:47:33Z'
-updated_at: '2014-05-10T20:47:33Z'
-user_id: 5
-github_id: 19648279
+theme: glide

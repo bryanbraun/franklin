@@ -6,32 +6,41 @@ Its goal is to do for books, what Octopress has done for blogs.
 
 ## Setup
 
-Franklin is built on top of [Middleman](http://middlemanapp.com/), a fantastic static site generator, written in Ruby. Thus the setup steps are as follows:
+Franklin is built on top of [Middleman](http://middlemanapp.com/), a fantastic static site generator written in Ruby. Thus the setup steps are as follows:
 
-1. Install Middleman
+1. Install Dependencies
 
-If you already have Ruby and Rubygems installed (they come installed on on Mac OSX), simply run this from your command line:
+Ensure that you have the following installed:
+* Ruby (comes pre-installed on Mac)
+* Rubygems (comes pre-installed on Mac)
+* Bundler (see http://bundler.io for installation instructions)
 
-    gem install middleman
+2. Install Middleman
+
+```bash
+# Run the following commands in the console
+gem install middleman
+```
 
 For more detailed instructions, see http://middlemanapp.com/basics/getting-started/.
 
 2. Download this project, and place it in your ~/.middleman directory:
 
-    git clone git@github.com:bryanbraun/franklin.git ~/.middleman/franklin
+```bash
+# If you have git installed...
+git clone git@github.com:bryanbraun/franklin.git ~/.middleman/franklin
+```
 
-3. Create your project:
+If you don't have [git](http://git-scm.com/) installed, you can manually [download franklin](https://github.com/bryanbraun/franklin/archive/master.zip), unzip it, and drop it into the `.middleman` folder.
 
-    # Replace 'mysite' with the name of your project
-    middleman init mysite --template=franklin
-    cd mysite
+3. Create your project and install gems:
 
-4. Install the remaining required gems:
-
-    # You must first install bundler for this command to work
-    bundle install
-
-If you do not have bundler installed, go to http://bundler.io/ and check out the project and installation instructions.
+```bash
+# Replace 'mysite' with the name of your project
+middleman init mysite --template=franklin
+cd mysite
+bundle install
+```
 
 ## Basic Usage
 
@@ -42,27 +51,50 @@ Your markdown files go into the "source" folder. They can be named anything (`xx
 The structure of your book, as given in the Table of Contents, will mimic the structure of the markdown files in the source directory. Notably:
 
 1. Your front page (`index.md`) will be promoted to the top of the list.
-2. Your readme (`readme.md`) file not appear in your table of contents. (For guidence on how to exclude other items from the Table of Contents, see the README for the [Middleman-Navtree](https://github.com/bryanbraun/middleman-navtree) gem).
+2. Your readme (`readme.md`) file will not appear in your table of contents. (For guidence on how to exclude other items from the Table of Contents, see the README for the [Middleman-Navtree](https://github.com/bryanbraun/middleman-navtree) gem).
 
 When you are ready to build your site, run the following command:
-
-    # This creates a `build` folder, containing your site, converted into static HTML.
-    bundle exec middleman build
-
+```bash
+# This creates a `build` folder, containing your site, converted into static HTML.
+bundle exec middleman build
+```
 Using Middleman's customization options, you can do all sorts of interesting things beyond this basic use-case. For details, see the [Middleman documentation](http://middlemanapp.com/).
 
 ## Configuration
 
 Your book configuration is written in YAML and kept in /data/book.yml. This is where you can change the author, title, and other book information. The available parameters are (with example values):
 
-    title: Example Book
-    author: You
-    github_url: https://github.com/bryanbraun/example-book
-    github_pages_url: http://bryanbraun.github.io/example-book
-    license_name: ''
-    license_url: ''
+```yaml
+title: Example Book
+author: You
+github_url: https://github.com/yourname/example-book
+github_pages_url: http://yourname.github.io/example-book
+license_name: ''
+license_url: ''
+theme: glide
+```
 
-For detailed theming and customization, see [Middleman's documentation](http://middlemanapp.com/)
+## Themes
+
+Themes can be found in the `source/themes` directory. You can use your own theme by adding it to the `themes` folder and changing the value in `/data/book.yml` like so:
+
+```yaml
+theme: theme-name
+```
+
+Any theme you add must have the following structure:
+
+```
+theme_name
+  |
+  |--javascripts
+  |
+  |--layouts
+  |
+  `--stylesheets
+```
+
+The main page layout is defined in `layouts/layout.erb`. For more details on working with layouts, see [Middleman's documentation](http://middlemanapp.com/basics/templates/#layouts).
 
 ## Contribution Guidelines
 
@@ -74,4 +106,4 @@ For detailed theming and customization, see [Middleman's documentation](http://m
 
 ## Contributors
 
-(your name will go here, if your contribution is accepted)
+(If you are making a contribution, add your name here as part of your pull request)

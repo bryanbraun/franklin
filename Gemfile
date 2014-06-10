@@ -1,7 +1,6 @@
 # If you have OpenSSL installed, we recommend updating
 # the following line to use "https"
 source 'http://rubygems.org'
-ruby '1.9.3' # Added by Bryan, for labeling the version of Ruby we are using.
 
 gem "middleman", "~> 3.3.2"
 gem "middleman-syntax"

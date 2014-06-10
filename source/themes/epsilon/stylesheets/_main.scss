@@ -161,16 +161,23 @@ code,
 samp,
 kbd {
   font-family: "Courier", monospace;
+  font-size: 0.8em;
   padding: 0 6px;
   text-align: left;
 }
 
 pre {
   font-family: "Courier", monospace;
+  font-size: 0.8em;
   line-height: 1.2em;
   margin: 1.2em 0;
   overflow: auto;
-  padding: 0 0 0 1.5em;
+  padding: 5px 0 5px 1.5em;
+  border: 1px solid #ddd;
+
+  // Override non-horizontally scrolling defaults in normalize.css.
+  white-space: pre;
+  word-wrap: normal;
 }
 
 // Override 'code' css rules if using 'pre > code' markup.
