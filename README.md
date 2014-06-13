@@ -2,7 +2,7 @@
 
 Franklin is a static-site framework, optimized for online books.
 
-Its goal is to do for books, what Octopress has done for blogs.
+![Franklin Logo](http://bitbooks.cc/images/franklin.png)
 
 ## Setup
 
@@ -24,7 +24,7 @@ gem install middleman
 
 For more detailed instructions, see http://middlemanapp.com/basics/getting-started/.
 
-2. Download this project, and place it in your ~/.middleman directory:
+3. Download this project, and place it in your ~/.middleman directory:
 
 ```bash
 # If you have git installed...
@@ -33,7 +33,7 @@ git clone git@github.com:bryanbraun/franklin.git ~/.middleman/franklin
 
 If you don't have [git](http://git-scm.com/) installed, you can manually [download franklin](https://github.com/bryanbraun/franklin/archive/master.zip), unzip it, and drop it into the `.middleman` folder.
 
-3. Create your project and install gems:
+4. Create your project and install gems:
 
 ```bash
 # Replace 'mysite' with the name of your project
