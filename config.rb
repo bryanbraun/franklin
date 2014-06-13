@@ -27,10 +27,10 @@ helpers do
     elsif page.url == '/'
       return data.book.title
     elsif match = page.render({:layout => false}).match(/<h.+>(.*?)<\/h1>/)
-      return match[1]
+      return match[1] + ' | ' + data.book.title
     else
-      filename = page.url.split(/\//).last.titleize.gsub('%20', ' ')
-      return filename.chomp(File.extname(filename))
+      filename = page.url.split(/\//).last.gsub('%20', ' ').titleize
+      return filename.chomp(File.extname(filename)) + ' | ' + data.book.title
     end
   end
 
