@@ -8,14 +8,14 @@ Franklin is a static-site framework, optimized for online books.
 
 Franklin is built on top of [Middleman](http://middlemanapp.com/), a fantastic static site generator written in Ruby. Thus the setup steps are as follows:
 
-1. Install Dependencies
+**1) Install Dependencies**
 
 Ensure that you have the following installed:
 * Ruby (comes pre-installed on Mac)
 * Rubygems (comes pre-installed on Mac)
 * Bundler (see http://bundler.io for installation instructions)
 
-2. Install Middleman
+**2) Install Middleman**
 
 ```bash
 # Run the following commands in the console
@@ -24,7 +24,7 @@ gem install middleman
 
 For more detailed instructions, see http://middlemanapp.com/basics/getting-started/.
 
-3. Download this project, and place it in your ~/.middleman directory:
+**3) Download this project, and place it in your ~/.middleman directory:**
 
 ```bash
 # If you have git installed...
@@ -33,7 +33,7 @@ git clone git@github.com:bryanbraun/franklin.git ~/.middleman/franklin
 
 If you don't have [git](http://git-scm.com/) installed, you can manually [download franklin](https://github.com/bryanbraun/franklin/archive/master.zip), unzip it, and drop it into the `.middleman` folder.
 
-4. Create your project and install gems:
+**4) Create your project and install gems:**
 
 ```bash
 # Replace 'mysite' with the name of your project
