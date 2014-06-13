@@ -107,3 +107,6 @@ The main page layout is defined in `layouts/layout.erb`. For more details on wor
 ## Contributors
 
 (If you are making a contribution, add your name here as part of your pull request)
+
+## License
+[MIT](http://opensource.org/licenses/MIT)
