@@ -54,7 +54,8 @@
   content: "\e602";
 }
 
-
+// Uncomment the transitions / paddings to enable next/previous icon animation.
+// I've disabled it by default because it seems like a bit too much.
 .previous {
   &:before {
     @extend .bitcon;
@@ -62,12 +63,12 @@
     font-size: 13px;
     padding-right: 10px;
     font-weight: bold;
-    -webkit-transition: padding-right 200ms; /* For Safari 3.1 to 6.0 */
-    transition: padding-right 200ms;
+    //-webkit-transition: padding-right 200ms; /* For Safari 3.1 to 6.0 */
+    //transition: padding-right 200ms;
   }
   &:hover {
     &:before {
-      padding-right: 18px;
+      //padding-right: 18px;
     }
   }
 }
@@ -79,12 +80,12 @@
     padding-left: 10px;
     font-weight: bold;
     content: "\e602";
-    -webkit-transition: padding-left 200ms; /* For Safari 3.1 to 6.0 */
-    transition: padding-left 200ms;
+    //-webkit-transition: padding-left 200ms; /* For Safari 3.1 to 6.0 */
+    //transition: padding-left 200ms;
   }
   &:hover {
      &:after {
-      padding-left: 18px;
+      //padding-left: 18px;
      }
   }
 }
@@ -251,15 +252,26 @@ pre > code {
   margin: 2.8em auto;
   max-width: 680px;
   padding: 0 1em;
-}
 
-.content-wrapper a {
-  color: #65B365;
-  text-decoration: underline;
+  a {
+    color: $orangey;
+    text-decoration: underline;
+  }
 }
 
 .main-content-source {
-    margin-bottom: 60px;
+  margin-bottom: 60px;
+
+  li {
+    padding: 4px 0;
+    line-height: 23px;
+  }
+
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .main-content-nav {
@@ -298,7 +310,7 @@ pre > code {
   padding: 2px 6px 2px 6px;
 
   &:hover {
-    color: #65B365;
+    color: $orangey;
   }
 }
 
@@ -320,6 +332,11 @@ pre > code {
   margin: 0 auto;
   text-align: center;
   width: 100%;
+
+  a {
+    color: $orangey;
+    text-decoration: underline;
+  }
 }
 
 .small-text {

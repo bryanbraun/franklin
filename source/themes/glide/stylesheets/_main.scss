@@ -44,12 +44,18 @@
 .content-wrapper {
   max-width: $inside-width;
   margin: 0 auto;
-  padding: 3em 1em;
+  padding: 3em 2em;
+  @media screen and (max-width: $tablet-mid) {
+    max-width: 46em;
+  }
+  @media screen and (max-width: $tablet-1) {
+    padding: 3em 1em;
+  }
 }
 .aside-content {
   float: right;
-  width: 36%;
-  padding-right: 6em;
+  width: 34%;
+  padding-right: 5em;
 
   @media screen and (max-width: $tablet-2) {
     padding-right: 3em;
@@ -79,7 +85,7 @@
 }
 
 .main-content {
-  width: 64%;
+  width: 66%;
   float: right;
 
   h1:first-child {
@@ -117,6 +123,17 @@
 // Main
 .main-content-source {
   margin-bottom: 2em;
+
+  li {
+    padding: 4px 0;
+    line-height: 1.3;
+  }
+
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .main-content-nav {

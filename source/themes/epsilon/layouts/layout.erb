@@ -14,7 +14,7 @@
     <!-- Styles and fonts -->
     <%= stylesheet_link_tag "themes/epsilon/stylesheets/epsilon" %>
     <%= stylesheet_link_tag "themes/epsilon/stylesheets/syntax" %>
-    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700|Noticia+Text:400,400italic,700,700italic&subset=latin,latin-ext,vietnamese' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:100,300,400,700|Noticia+Text:400,400italic,700,700italic&subset=latin,latin-ext,vietnamese' rel='stylesheet' type='text/css'>
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
@@ -26,7 +26,6 @@
 
       <a id="menu-toggle" class="menu-toggle" href="#sidr"><span class="bitcon-list"></span><span class="menu-toggle-text">Toggle Menu</span></a>
       <header class="page-header" role="banner">
-        <%# @todo: only link to the index page if there is an index.md file %>
         <% link_to_if_exists '/index.html', :class => "invisilink" do %>
           <% if ['index.html'].include? current_page.path %>
             <h1 class="book-title"><%= data.book.title %></h1>
