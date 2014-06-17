@@ -2,7 +2,7 @@
 title: Example Book
 author: You
 github_url: https://github.com/yourname/example-book
-github_pages_url: http://yourname.github.io/example-book
+domain: http://yourname.github.io/example-book
 license_name: Attribution-ShareAlike
 license_url: https://creativecommons.org/licenses/by-sa/4.0
 theme: glide
