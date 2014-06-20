@@ -69,7 +69,7 @@ GEM
       middleman-core (>= 3.0.2)
       multi_json (~> 1.0)
       rack-livereload
-    middleman-navtree (0.1.7)
+    middleman-navtree (0.1.8)
       middleman-core (~> 3.3)
       titleize (~> 1.3)
     middleman-sprockets (3.3.3)

@@ -6,7 +6,7 @@ Franklin is a static-site framework, optimized for online books.
 
 ## Setup
 
-Franklin is built on top of [Middleman](http://middlemanapp.com/), a fantastic static site generator written in Ruby. Thus the setup steps are as follows:
+Franklin is built on top of [Middleman](http://middlemanapp.com/), a fantastic static site generator written in Ruby. The setup steps are as follows:
 
 **1) Install Dependencies**
 
@@ -31,15 +31,15 @@ For more detailed instructions, see http://middlemanapp.com/basics/getting-start
 git clone git@github.com:bryanbraun/franklin.git ~/.middleman/franklin
 ```
 
-If you don't have [git](http://git-scm.com/) installed, you can manually [download franklin](https://github.com/bryanbraun/franklin/archive/master.zip), unzip it, and drop it into the `.middleman` folder.
+If you don't have [git](http://git-scm.com/) installed, you can manually [download franklin](https://github.com/bryanbraun/franklin/archive/master.zip), unzip it, and drop it into your `~/.middleman` folder.
 
-**4) Create your project and install gems:**
+**4) Create your project:**
 
 ```bash
 # Replace 'mysite' with the name of your project
 middleman init mysite --template=franklin
 cd mysite
-bundle install
+bundle install  # Installs any franklin-specific gems.
 ```
 
 ## Basic Usage
@@ -68,9 +68,9 @@ Your book configuration is written in YAML and kept in /data/book.yml. This is w
 title: Example Book
 author: You
 github_url: https://github.com/yourname/example-book
-github_pages_url: http://yourname.github.io/example-book
-license_name: ''
-license_url: ''
+domain: http://yourname.github.io/example-book
+license_name: Attribution-ShareAlike
+license_url: https://creativecommons.org/licenses/by-sa/4.0
 theme: glide
 ```
 
