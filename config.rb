@@ -3,8 +3,6 @@
 #####################################################
 
 require 'middleman-navtree'
-# require 'middleman-linkswap'
-# activate :linkswap
 
 # Configuration For Themes
 set :layouts_dir, 'themes/' + data.book.theme.downcase + '/layouts'

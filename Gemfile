@@ -7,7 +7,6 @@ gem "middleman-syntax"
 gem "redcarpet" # For github-flavored markdown
 gem "middleman-navtree"
 gem "titleize", "~> 1.3.0" # For title-casing things
-# gem "middleman-linkswap" # Not including for now.
 
 # For faster file watcher updates on Windows:
 gem "wdm", "~> 0.1.0", :platforms => [:mswin, :mingw]

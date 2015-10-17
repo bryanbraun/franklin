@@ -2,7 +2,7 @@
 
 Franklin is a static-site framework, optimized for online books.
 
-![Franklin Logo](http://bitbooks.cc/images/franklin.png)
+![Franklin Logo](https://cloud.githubusercontent.com/assets/1256329/10561173/fd1a8618-74ed-11e5-8add-a4b1b7d8381e.png)
 
 ## Setup
 
@@ -51,7 +51,8 @@ Your markdown files go into the "source" folder. They can be named anything (`xx
 The structure of your book, as given in the Table of Contents, will mimic the structure of the markdown files in the source directory. Notably:
 
 1. Your front page (`index.md`) will be promoted to the top of the list.
-2. Your readme (`readme.md`) file will not appear in your table of contents. (For guidence on how to exclude other items from the Table of Contents, see the README for the [Middleman-Navtree](https://github.com/bryanbraun/middleman-navtree) gem).
+2. Pages will be ordered alphebetically by their file names (thus, using a numbered prefix, like `01-my-filename.md` is encouraged).
+3. Your readme (`readme.md`) file will not appear in your table of contents (for guidence on how to exclude other items from the Table of Contents, see the README for the [Middleman-Navtree](https://github.com/bryanbraun/middleman-navtree) gem).
 
 When you are ready to build your site, run the following command:
 ```bash
@@ -62,7 +63,9 @@ Using Middleman's customization options, you can do all sorts of interesting thi
 
 ## Configuration
 
-Your book configuration is written in YAML and kept in /data/book.yml. This is where you can change the author, title, and other book information. The available parameters are (with example values):
+#### `book.yml`
+
+This is where you can change the author, title, and other book information. The available parameters are (with example values):
 
 ```yaml
 title: Example Book
@@ -73,6 +76,10 @@ license_name: Attribution-ShareAlike
 license_url: https://creativecommons.org/licenses/by-sa/4.0
 theme: glide
 ```
+
+#### `tree.yml`
+
+This defines the order and structure of your book (for the table of contents and pagination). This file is generated automatically and should not need adjustment. For advanced use-cases where adjustment is desired, see the [middleman-navtree docs](https://github.com/bryanbraun/middleman-navtree) (specifically the `automatic_tree_updaets` option).
 
 ## Themes
 
