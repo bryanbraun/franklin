@@ -28,7 +28,7 @@ For more detailed instructions, see http://middlemanapp.com/basics/getting-start
 
 ```bash
 # If you have git installed...
-git clone git@github.com:bryanbraun/franklin.git ~/.middleman/franklin
+git clone git@github.com:bryanbraun/franklin.git ~/.middleman/bryanbraun/franklin
 ```
 
 If you don't have [git](http://git-scm.com/) installed, you can manually [download franklin](https://github.com/bryanbraun/franklin/archive/master.zip), unzip it, and drop it into your `~/.middleman` folder.
@@ -37,7 +37,7 @@ If you don't have [git](http://git-scm.com/) installed, you can manually [downlo
 
 ```bash
 # Replace 'mysite' with the name of your project
-middleman init mysite --template=franklin
+middleman init mysite --template=bryanbraun/franklin
 cd mysite
 bundle install  # Installs any franklin-specific gems.
 ```
