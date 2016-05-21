@@ -103,6 +103,13 @@ theme_name
 
 The main page layout is defined in `layouts/layout.erb`. For more details on working with layouts, see [Middleman's documentation](http://middlemanapp.com/basics/templates/#layouts).
 
+## Examples
+![Screenshot of three mobile-friendly Franklin themes](https://cloud.githubusercontent.com/assets/1256329/15450713/3ed30728-1f71-11e6-8a1b-eb3d9c014699.png)
+
+  - [Epsilon Theme Example](http://bitbooks.github.io/example-book-epsilon/)
+  - [Glide Theme Example](http://bitbooks.github.io/example-book-glide/)
+  - [Hamilton Theme Example](http://bitbooks.github.io/example-book-hamilton/)
+
 ## Contribution Guidelines
 
 1. [Fork this project](https://github.com/bryanbraun/franklin/fork)
