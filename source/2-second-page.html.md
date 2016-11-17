@@ -13,11 +13,17 @@ And a numbered list:
 
 And a code block (with syntax highlighting).
 
-```ruby
-require 'redcarpet'
+~~~ ruby
 markdown = Redcarpet.new("Hello World!")
+
 puts markdown.to_html
-```
+
+class NewClass
+  def initialize(options)
+    @options = options
+  end
+end
+~~~
 
 And a horizontal rule.
 

@@ -1,4 +1,4 @@
 ---
-index.md: /index.md
-1-first-page.md: /1-first-page.md
-2-second-page.md: /2-second-page.md
+index.html.md: "/index.html.md"
+1-first-page.html.md: "/1-first-page.html.md"
+2-second-page.html.md: "/2-second-page.html.md"

@@ -12,8 +12,8 @@
     <title><%= discover_page_title %></title>
 
     <!-- Styles and fonts -->
-    <%= stylesheet_link_tag "themes/hamilton/stylesheets/hamilton" %>
-    <%= stylesheet_link_tag "themes/hamilton/stylesheets/syntax" %>
+    <%= stylesheet_link_tag :hamilton %>
+    <%= stylesheet_link_tag :syntax %>
 
     <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700italic,700' rel='stylesheet' type='text/css'>
 
@@ -97,7 +97,7 @@
             </div>
           </div>
 
-          <div class="small-text"><small>Copyright 2013</small></div>
+          <div class="small-text">Copyright <%= Time.now.year %></div>
 
         </div><!-- end footer-wrapper -->
 

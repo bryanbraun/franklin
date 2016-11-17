@@ -12,8 +12,8 @@
     <title><%= discover_page_title %></title>
 
     <!-- Styles and fonts -->
-    <%= stylesheet_link_tag "themes/epsilon/stylesheets/epsilon" %>
-    <%= stylesheet_link_tag "themes/epsilon/stylesheets/syntax" %>
+    <%= stylesheet_link_tag :epsilon %>
+    <%= stylesheet_link_tag :syntax %>
     <link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700|Noticia+Text:400,400italic,700,700italic&subset=latin,latin-ext,vietnamese' rel='stylesheet' type='text/css'>
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -102,7 +102,7 @@
 
       <footer class="page-footer">
         <div class="footer-wrapper">
-          <small class="small-text">Copyright 2013</small>
+          <small class="small-text">Copyright <%= Time.now.year %></small>
         </div><!-- end footer-wrapper -->
       </footer>
 
