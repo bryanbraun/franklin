@@ -3,7 +3,7 @@
 ###
 
 # Choose stylesheet theme: glide, hamilton, epsilon
-config[:theme] = 'epsilon'
+config[:theme] = 'glide'
 
 set :layouts_dir, 'themes/' + config[:theme] + '/layouts'
 set :css_dir, 'themes/' + config[:theme] + '/stylesheets'

@@ -1,4 +1,4 @@
 ---
 index.html.md: "/index.html.md"
-1-first-page.html.md: "/1-first-page.html.md"
-2-second-page.html.md: "/2-second-page.html.md"
+code_highlighter.html.md: "/code_highlighter.html.md"
+markdown.html.md: "/markdown.html.md"
