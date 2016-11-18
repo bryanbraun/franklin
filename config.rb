@@ -35,6 +35,10 @@ end
 
 activate :syntax
 
+# default en locale
+activate :i18n
+#activate :i18n, :mount_at_root => :pl
+
 set :markdown_engine, :kramdown
 
 # Build-specific configuration
