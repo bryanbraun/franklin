@@ -79,16 +79,24 @@ _You **can** combine them_
 
 ## Links
 
+    [Franklin](https://github.com/bryanbraun/franklin)
+
 [Franklin](https://github.com/bryanbraun/franklin)
 
 ## Blockquotes
 
 As Kanye West said:
 
+    > We're living the future so
+    > the present is our past.
+
 > We're living the future so
 > the present is our past.
 
 ## Inline code
+
+    I think you should use an
+    `<addr>` element here instead.
 
 I think you should use an
 `<addr>` element here instead.
