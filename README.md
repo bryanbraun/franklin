@@ -74,7 +74,6 @@ github_url: https://github.com/yourname/example-book
 domain: http://yourname.github.io/example-book
 license_name: Attribution-ShareAlike
 license_url: https://creativecommons.org/licenses/by-sa/4.0
-theme: glide
 ```
 
 #### `tree.yml`
@@ -83,10 +82,10 @@ This defines the order and structure of your book (for the table of contents and
 
 ## Themes
 
-Themes can be found in the `source/themes` directory. You can use your own theme by adding it to the `themes` folder and changing the value in `/data/book.yml` like so:
+Themes can be found in the `source/themes` directory. You can use your own theme by adding it to the `themes` folder and changing the value in `config.rb`: like so:
 
-```yaml
-theme: theme-name
+```ruby
+config[:theme] = 'glide'
 ```
 
 Any theme you add must have the following structure:
