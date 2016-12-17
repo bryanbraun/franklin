@@ -11,5 +11,5 @@ gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
 # Middleman Gems
 gem 'middleman', '>= 4.0.0'
 gem 'middleman-livereload'
-gem 'middleman-navtree', git: 'https://github.com/musashimm/middleman-navtree.git'
+gem 'middleman-navtree', git: 'https://github.com/bryanbraun/middleman-navtree.git'
 gem "middleman-syntax"
