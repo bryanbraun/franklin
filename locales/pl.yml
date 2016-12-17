@@ -1,4 +1,6 @@
 ---
   pl:
-    previous_page: 'Poprzednia'
+    license: 'Licencja'
     next_page: 'Następna'
+    previous_page: 'Poprzednia'
+    table_of_contents: 'Spis treści'

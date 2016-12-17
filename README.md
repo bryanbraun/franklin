@@ -103,6 +103,20 @@ theme_name
 
 The main page layout is defined in `layouts/layout.erb`. For more details on working with layouts, see [Middleman's documentation](http://middlemanapp.com/basics/templates/#layouts).
 
+## Localization
+
+Default locale is `:en`. If you want to change it, for example to `:pl`, configure middleman:
+
+    activate :i18n, :mount_at_root => :pl
+
+and put locales file `pl.yml` in `locales` directory in format:
+
+    ---
+      pl:
+        previous_page: 'Poprzednia'
+        next_page: 'Następna'
+        table_of_contents: 'Spis treści'
+
 ## Examples
 ![Screenshot of three mobile-friendly Franklin themes](https://cloud.githubusercontent.com/assets/1256329/15450713/3ed30728-1f71-11e6-8a1b-eb3d9c014699.png)
 

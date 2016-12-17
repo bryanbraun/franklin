@@ -57,7 +57,7 @@
             <div class="aside-wrapper">
 
               <div class="block table-of-contents">
-                <h3>Table of Contents</h3>
+                <h3><%= I18n.t('table_of_contents', default: 'Table of Contents') %></h3>
                 <nav role="navigation">
                   <ul>
                     <%= tree_to_html(data.tree) %>
@@ -92,7 +92,7 @@
           </div>
           -->
           <div class="block license">
-            <h3>License</h3>
+            <h3><%= I18n.t('license', default: 'License') %></h3>
             <p>This book is licensed under the <a href="<%= data.book.license_url %>"><%= data.book.license_name %></a> license.</p>
           </div>
 

@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/musashimm/middleman-navtree.git
-  revision: 253c8286126c0fff49daa288d5f5ec83647dc28d
+  remote: https://github.com/bryanbraun/middleman-navtree.git
+  revision: 0119212cabfb020c95cff2a82d7e8bbcf8e3524c
   specs:
     middleman-navtree (0.1.11)
       i18n (~> 0.7.0)
