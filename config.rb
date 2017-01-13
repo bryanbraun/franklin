@@ -40,6 +40,7 @@ activate :i18n
 #activate :i18n, :mount_at_root => :pl
 
 set :markdown_engine, :kramdown
+set :markdown, input: "GFM"
 
 # Build-specific configuration
 configure :build do
@@ -53,4 +54,3 @@ end
 configure :development do
   activate :livereload
 end
-

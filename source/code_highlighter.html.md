@@ -12,14 +12,14 @@ Below You can find some examples of code highlight.
 
 ## Shell
 
-~~~ shell
+```shell
 ls -la
 cd directory
-~~~
+```
 
 ## Ruby
 
-~~~ ruby
+```ruby
 markdown = Redcarpet.new("Hello World!")
 
 puts markdown.to_html
@@ -29,14 +29,14 @@ class NewClass
     @options = options
   end
 end
-~~~
+```
 
 ## Javascript
 
-~~~ javascript
+```javascript
 var x = myFunction(4, 3);
 
 function myFunction(a, b) {
     return a * b;
 }
-~~~
+```
