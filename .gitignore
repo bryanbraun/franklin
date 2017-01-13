@@ -18,3 +18,6 @@
 
 # Ignore .DS_store file
 .DS_Store
+
+# Ignore local ruby version (for rbenv)
+.ruby-version
