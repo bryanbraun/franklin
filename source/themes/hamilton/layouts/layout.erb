@@ -43,7 +43,8 @@
       <div class="content-wrapper clearfix">
         <div class="toc" id="toc">
           <a href="#" class="toc-title" id="toc-title">
-          <h3><%= I18n.t('table_of_contents', default: 'Table of Contents') %></h3>
+            <h3><%= I18n.t('table_of_contents', default: 'Table of Contents') %></h3>
+          </a>
           <nav role="navigation" id="toc-nav" style="display: none;">
             <ul id="toc-list">
               <%= tree_to_html(data.tree) %>
